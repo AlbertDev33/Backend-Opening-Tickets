@@ -14,15 +14,15 @@ export default class CreateTickets1603119706839 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'assunto',
+            name: 'subject',
             type: 'varchar',
           },
           {
-            name: 'mensagem',
+            name: 'message',
             type: 'varchar',
           },
           {
-            name: 'criador',
+            name: 'user_id',
             type: 'uuid',
           },
           {
@@ -39,7 +39,7 @@ export default class CreateTickets1603119706839 implements MigrationInterface {
         foreignKeys: [
           {
             name: 'UserTicket',
-            columnNames: ['criador'],
+            columnNames: ['user_id'],
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
             onDelete: 'SET NULL',
