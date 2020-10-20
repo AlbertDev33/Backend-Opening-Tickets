@@ -16,10 +16,10 @@ class Ticket {
   id: string;
 
   @Column()
-  assunto: string;
+  subject: string;
 
   @Column()
-  mensagem: string;
+  message: string;
 
   @Column()
   user_id: string;
