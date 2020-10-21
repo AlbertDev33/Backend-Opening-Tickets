@@ -13,6 +13,12 @@ class TicketsRepository implements ITicketsRepository {
     this.ormRepository = getRepository(Ticket);
   }
 
+  public async findAllTickets(): Promise<Ticket[]> {
+    const tickets = await this.ormRepository.find();
+
+    return tickets;
+  }
+
   public async findById(id: string): Promise<Ticket | undefined> {
     const findTicket = await this.ormRepository.findOne(id);
 
@@ -24,11 +30,19 @@ class TicketsRepository implements ITicketsRepository {
     message,
     user_id,
   }: ICreateTicketDTO): Promise<Ticket> {
-    const ticket = this.ormRepository.create({ subject, message, user_id });
+    const ticket = this.ormRepository.create({
+      subject,
+      message,
+      user_id,
+    });
 
     await this.ormRepository.save(ticket);
 
     return ticket;
+  }
+
+  public async delete(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
   }
 }
 
