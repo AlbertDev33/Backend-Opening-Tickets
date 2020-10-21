@@ -3,6 +3,8 @@ import { getCustomRepository } from 'typeorm';
 import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
 import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
 
+import AppError from '@shared/errors/AppError';
+
 interface IRequest {
   id: string;
 }
@@ -14,7 +16,7 @@ class CreateTicketService {
     const listTicket = ticketRepository.findById(id);
 
     if (!listTicket) {
-      throw new Error('Ticket not found');
+      throw new AppError('Ticket not found', 404);
     }
 
     return listTicket;
