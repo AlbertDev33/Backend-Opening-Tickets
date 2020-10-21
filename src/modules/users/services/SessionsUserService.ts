@@ -5,6 +5,9 @@ import { sign } from 'jsonwebtoken';
 import User from '@modules/users/infra/typeorm/entities/User';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
+import authConfig from '@config/auth';
+import AppError from '@shared/errors/AppError';
+
 interface IRequest {
   email: string;
   password: string;
@@ -22,18 +25,20 @@ class SessionsUserService {
     const user = await usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new Error('Invalid email or password');
+      throw new AppError('Invalid email or password', 401);
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error('Invalid email or password');
+      throw new AppError('Invalid email or password', 401);
     }
 
-    const token = sign({}, '24fb09552755f49d35e8f15944fec9f1', {
+    const { secret, expiresIn } = authConfig.jwt;
+
+    const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: '8h',
+      expiresIn,
     });
 
     return { user, token };
