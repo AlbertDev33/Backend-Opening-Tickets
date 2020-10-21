@@ -3,11 +3,13 @@ import { Router } from 'express';
 import CreateTicketService from '@modules/tickets/services/CreateTicketService';
 import ListAllTicketsService from '@modules/tickets/services/ListAllTicketsService';
 import DeleteTicketService from '@modules/tickets/services/DeleteTicketService';
+import UpdateTicketMessageService from '@modules/tickets/services/UpdateTicketMessageService';
+
 import confirmAuthenticated from '@modules/users/infra/http/middlewares/confirmAuthenticated';
 
-const usersRouter = Router();
+const ticketsRouter = Router();
 
-usersRouter.get('/', confirmAuthenticated, async (request, response) => {
+ticketsRouter.get('/', confirmAuthenticated, async (request, response) => {
   try {
     const findAllTickets = new ListAllTicketsService();
 
@@ -19,7 +21,7 @@ usersRouter.get('/', confirmAuthenticated, async (request, response) => {
   }
 });
 
-usersRouter.post('/', confirmAuthenticated, async (request, response) => {
+ticketsRouter.post('/', confirmAuthenticated, async (request, response) => {
   try {
     const { id } = request.user;
     const { subject, message } = request.body;
@@ -38,7 +40,26 @@ usersRouter.post('/', confirmAuthenticated, async (request, response) => {
   }
 });
 
-usersRouter.delete('/', confirmAuthenticated, async (request, response) => {
+ticketsRouter.patch('/', confirmAuthenticated, async (request, response) => {
+  try {
+    const { id } = request.user;
+    const { ticket_id, message } = request.body;
+
+    const updateTicketMessage = new UpdateTicketMessageService();
+
+    const ticket = updateTicketMessage.execute({
+      user_id: id,
+      ticket_id,
+      message,
+    });
+
+    return response.json(ticket);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+ticketsRouter.delete('/', confirmAuthenticated, async (request, response) => {
   try {
     const { id } = request.body;
 
@@ -52,4 +73,4 @@ usersRouter.delete('/', confirmAuthenticated, async (request, response) => {
   }
 });
 
-export default usersRouter;
+export default ticketsRouter;
