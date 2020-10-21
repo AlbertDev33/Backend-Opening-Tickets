@@ -4,6 +4,7 @@ import ICreateTicketDTO from '@modules/tickets/dtos/ICreateTicketDTO';
 export default interface ITicketRepository {
   create(data: ICreateTicketDTO): Promise<Ticket>;
   delete(id: string): Promise<void>;
+  save(ticket: Ticket): Promise<Ticket>;
   findById(id: string): Promise<Ticket | undefined>;
   findAllTickets(): Promise<Ticket[]>;
 }
