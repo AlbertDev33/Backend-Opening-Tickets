@@ -1,20 +1,18 @@
-import { getCustomRepository } from 'typeorm';
-
-import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
+import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 
 import AppError from '@shared/errors/AppError';
 
 class DeleteTicketService {
-  public async execute(id: string): Promise<void> {
-    const ticketRepository = getCustomRepository(TicketsRepository);
+  constructor(private ticketsRepository: ITicketsRepository) {}
 
-    const ticket = await ticketRepository.findById(String(id));
+  public async execute(id: string): Promise<void> {
+    const ticket = await this.ticketsRepository.findById(String(id));
 
     if (!ticket) {
       throw new AppError('Ticket not found', 404);
     }
 
-    await ticketRepository.delete(id);
+    await this.ticketsRepository.delete(id);
   }
 }
 
