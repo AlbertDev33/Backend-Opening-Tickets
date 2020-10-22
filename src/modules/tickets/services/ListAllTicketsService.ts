@@ -1,15 +1,13 @@
-import { getCustomRepository } from 'typeorm';
-
 import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
-import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
+import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 
 import AppError from '@shared/errors/AppError';
 
 class CreateTicketService {
-  public async execute(): Promise<Ticket[]> {
-    const ticketRepository = getCustomRepository(TicketsRepository);
+  constructor(private ticketsRepository: ITicketsRepository) {}
 
-    const listTickets = await ticketRepository.findAllTickets();
+  public async execute(): Promise<Ticket[]> {
+    const listTickets = await this.ticketsRepository.findAllTickets();
 
     if (!listTickets) {
       throw new AppError('Ticket finished or not exisit', 404);
