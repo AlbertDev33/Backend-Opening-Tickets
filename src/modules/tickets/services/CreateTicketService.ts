@@ -1,7 +1,5 @@
-import { getCustomRepository } from 'typeorm';
-
 import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
-import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
+import TicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 
 interface IRequest {
   subject: string;
@@ -10,14 +8,14 @@ interface IRequest {
 }
 
 class CreateTicketService {
+  constructor(private ticketsRepository: TicketsRepository) {}
+
   public async execute({
     subject,
     message,
     user_id,
   }: IRequest): Promise<Ticket> {
-    const ticketRepository = getCustomRepository(TicketsRepository);
-
-    const ticket = await ticketRepository.create({
+    const ticket = await this.ticketsRepository.create({
       subject,
       message,
       user_id,
