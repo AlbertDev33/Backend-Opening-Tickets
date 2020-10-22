@@ -41,7 +41,7 @@ class TicketsRepository implements ITicketsRepository {
     return ticket;
   }
 
-  public async save(ticket: Ticket): Promise<Ticket> {
+  public async update(ticket: Ticket): Promise<Ticket> {
     return this.ormRepository.save(ticket);
   }
 
