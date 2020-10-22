@@ -1,7 +1,5 @@
-import { getCustomRepository } from 'typeorm';
-
 import User from '@modules/users/infra/typeorm/entities/User';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import AppError from '@shared/errors/AppError';
 
@@ -10,10 +8,10 @@ interface IRequest {
 }
 
 class FindUserService {
-  public async execute({ id }: IRequest): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
+  constructor(private usersRepository: IUsersRepository) {}
 
-    const user = await usersRepository.findById(id);
+  public async execute({ id }: IRequest): Promise<User> {
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new AppError(
