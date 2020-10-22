@@ -1,17 +1,43 @@
 import { Router } from 'express';
 
 import CreateTicketService from '@modules/tickets/services/CreateTicketService';
+import ListTicketService from '@modules/tickets/services/ListTicketService';
 import ListAllTicketsService from '@modules/tickets/services/ListAllTicketsService';
 import DeleteTicketService from '@modules/tickets/services/DeleteTicketService';
 import UpdateTicketMessageService from '@modules/tickets/services/UpdateTicketMessageService';
+
+import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 import confirmAuthenticated from '@modules/users/infra/http/middlewares/confirmAuthenticated';
 
 const ticketsRouter = Router();
 
+ticketsRouter.get('/:id', confirmAuthenticated, async (request, response) => {
+  try {
+    const { id } = request.user;
+    const { ticket_id } = request.params;
+
+    const ticketsRepository = new TicketsRepository();
+    const usersRepository = new UsersRepository();
+
+    const findTicket = new ListTicketService(
+      ticketsRepository,
+      usersRepository,
+    );
+
+    const ticket = await findTicket.execute({ ticket_id, user_id: id });
+
+    return response.json(ticket);
+  } catch (err) {
+    return response.status(err.statusCode).json({ error: err.message });
+  }
+});
+
 ticketsRouter.get('/', confirmAuthenticated, async (request, response) => {
   try {
-    const findAllTickets = new ListAllTicketsService();
+    const ticketsRepository = new TicketsRepository();
+    const findAllTickets = new ListAllTicketsService(ticketsRepository);
 
     const tickets = await findAllTickets.execute();
 
@@ -26,7 +52,8 @@ ticketsRouter.post('/', confirmAuthenticated, async (request, response) => {
     const { id } = request.user;
     const { subject, message } = request.body;
 
-    const createTicket = new CreateTicketService();
+    const ticketsRepository = new TicketsRepository();
+    const createTicket = new CreateTicketService(ticketsRepository);
 
     const ticket = await createTicket.execute({
       subject,
@@ -45,9 +72,14 @@ ticketsRouter.patch('/', confirmAuthenticated, async (request, response) => {
     const { id } = request.user;
     const { ticket_id, message } = request.body;
 
-    const updateTicketMessage = new UpdateTicketMessageService();
+    const ticketsRepository = new TicketsRepository();
+    const usersRepository = new UsersRepository();
+    const updateTicketMessage = new UpdateTicketMessageService(
+      ticketsRepository,
+      usersRepository,
+    );
 
-    const ticket = updateTicketMessage.execute({
+    const ticket = await updateTicketMessage.execute({
       user_id: id,
       ticket_id,
       message,
@@ -63,7 +95,8 @@ ticketsRouter.delete('/', confirmAuthenticated, async (request, response) => {
   try {
     const { id } = request.body;
 
-    const updateTicket = new DeleteTicketService();
+    const ticketsRepository = new TicketsRepository();
+    const updateTicket = new DeleteTicketService(ticketsRepository);
 
     await updateTicket.execute(id);
 
