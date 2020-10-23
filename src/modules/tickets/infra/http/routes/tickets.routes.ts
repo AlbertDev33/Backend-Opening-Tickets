@@ -36,14 +36,21 @@ ticketsRouter.get('/:id', confirmAuthenticated, async (request, response) => {
 
 ticketsRouter.get('/', confirmAuthenticated, async (request, response) => {
   try {
-    const ticketsRepository = new TicketsRepository();
-    const findAllTickets = new ListAllTicketsService(ticketsRepository);
+    const { id } = request.user;
 
-    const tickets = await findAllTickets.execute();
+    const ticketsRepository = new TicketsRepository();
+    const usersRepository = new UsersRepository();
+
+    const findAllTickets = new ListAllTicketsService(
+      ticketsRepository,
+      usersRepository,
+    );
+
+    const tickets = await findAllTickets.execute({ user_id: id });
 
     return response.json(tickets);
   } catch (err) {
-    return response.status(err.statusCode).json({ error: err.message });
+    return response.status(401).json({ error: err.message });
   }
 });
 
