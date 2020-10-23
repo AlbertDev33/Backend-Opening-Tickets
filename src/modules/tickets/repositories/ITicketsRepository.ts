@@ -6,5 +6,5 @@ export default interface ITicketRepository {
   delete(id: string): Promise<void>;
   update(ticket: Ticket): Promise<Ticket>;
   findById(id: string): Promise<Ticket | undefined>;
-  findAllTickets(): Promise<Ticket[]>;
+  findAllTickets(user_id: string): Promise<Ticket[]>;
 }
