@@ -1,6 +1,6 @@
 # Sistama de abertura de tickets
 
-### Bibliotécas e recursos utilizados no projeto
+### Bibliotecas e recursos utilizados no projeto
 
 - express - Frameword para configuração do servidor
 - typeorm - ORM utilizado para gerar as query para o banco de dados
