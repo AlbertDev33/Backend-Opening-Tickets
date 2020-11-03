@@ -100,15 +100,15 @@
 
 #### Criar uma sessão para um usuário
 
-![] (/src/examples/Session.png)
+![] (src/examples/Session.png)
 
 #### Buscar ticket por usuário
 
-![] (/src/examples/BuscarTicketPorUsuario.png)
+![] (src/examples/BuscarTicketPorUsuario.png)
 
 #### Criar um usuário
 
-![] (/src/examples/CriarUsuario.png)
+![] (src/examples/CriarUsuario.png)
 
 ### Como executar o projeto
 
