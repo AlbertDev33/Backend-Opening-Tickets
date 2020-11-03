@@ -1,4 +1,4 @@
-# Sistam de abertura de tickets
+# Sistama de abertura de tickets
 
 ### Bibliotécas e recursos utilizados no projeto
 
