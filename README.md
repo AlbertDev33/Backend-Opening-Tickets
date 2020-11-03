@@ -1,6 +1,4 @@
-# Desafio Técnico - Backend Cirrus
-
-## Projeto em cumprimento ao desafio Alterdada. Trata-se da aplicação de nível INICIANTE.
+# Sistam de abertura de tickets
 
 ### Bibliotécas e recursos utilizados no projeto
 
@@ -16,9 +14,7 @@
 - ts-node-dev - Biblioteca que permite rodar o servidor de forma mais simples com o typescript.
 - tsconfig-paths - Biblioteca utilizada para gerar os caminhos das pastas com @ e facilitar a leitura.
 
-### Referências utilizadas para criar o projeto
-
-- Todos o projeto foi baseado em uma aplicação que eu já havia desenvolvido. Para consultas: https://github.com/AlbertDev33/GoBarber-Simples
+## Estrutura de pastas do projeto
 
 ```
 ├── yarn.lock
@@ -94,20 +90,34 @@
 
 - Criar sessão do usuário
 - Update da mensagem do ticket
-- Encerrar um tiket (nesse caso ainda está deletando, não consegui desenvolver melhor em tempo hábil)
-- Bustar todos os tickets por usuário
+- Encerrar um tiket
+- Buscar todos os tickets por usuário
 - Criar tickets
 - Buscar usuário por id
 - Criar um usuário
 
-- Não consegui desenvolver os testes automatizados
+### Alguns exemplos dessa API
+
+#### Criar uma sessão para um usuário
+
+![] (/src/examples/Session.png)
+
+#### Buscar ticket por usuário
+
+![] (/src/examples/BuscarTicketPorUsuario.png)
+
+#### Criar um usuário
+
+![] (/src/examples/CriarUsuario.png)
 
 ### Como executar o projeto
 
 - Clone o projeto
 - Execute o comando yarn ou npm install (esse projeto foi desenvolvido com yarn)
+- Crie uma chave secreta para que o token gerado seja validado e insira em uma
+variável ambiente
+- Substitua as credenciais de acesso ao banco de dados no arquivo ormconfig.json
+- Coloque seu banco de dados em funcionamento para que a API possa se conectar
+a ela.
 - Rode o comando yarn dev:server ou altere o script no pakage.json;
 
-
-## Dúvidas
-Caso tenha alguma dúvida entre em contato pelo e-mail: dias.dsn.cir@alterdata.com.br
