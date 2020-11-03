@@ -100,15 +100,54 @@
 
 #### Criar uma sessão para um usuário
 
-![](/src/examples/session.png)
+```json
+{
+  "user": {
+    "id": "f4910ed4-2537-4968-a69f-ee0fd026dba8",
+    "name": "Example User",
+    "email": "User@user.com",
+    "created_at": "2020-11-03T18:42:50.427Z",
+    "updated_at": "2020-11-03T18:42:50.427Z"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDQ0MTgxODUsImV4cCI6MTYwNDQ0Njk4NSwic3ViIjoiZjQ5MTBlZDQtMjUzNy00OTY4LWE2OWYtZWUwZmQwMjZkYmE4In0.pp5vtCRzmkSw1B9DpLF0-Uch53mXwlicuS88v1o4HQw"
+}
+```
 
 #### Buscar ticket por usuário
 
-![](/src/examples/buscarTicketPorUsuario.png)
+```json
+[
+  {
+    "id": "e6fad581-43c8-478a-b3ff-bd8a7701082d",
+    "subject": "Cadastro de tickets",
+    "message": "Realizando cadastro de tickets",
+    "user_id": "c6bcff98-d66a-4b63-b89a-c68bedd653c2",
+    "created_at": "2020-11-03T17:13:59.667Z",
+    "updated_at": "2020-11-03T17:13:59.667Z"
+  },
+  {
+    "id": "3887b607-10be-44c1-bf9b-f1be23dbacc1",
+    "subject": "Segundo teste de cadastro de tickets",
+    "message": "Esse é o segundo cadastro de tickets",
+    "user_id": "c6bcff98-d66a-4b63-b89a-c68bedd653c2",
+    "created_at": "2020-11-03T17:15:35.547Z",
+    "updated_at": "2020-11-03T17:15:35.547Z"
+  }
+]
+
+```
 
 #### Criar um usuário
 
-![](/src/examples/criarUsuario.png)
+```json
+{
+  "name": "Example User",
+  "email": "User@user.com",
+  "id": "f4910ed4-2537-4968-a69f-ee0fd026dba8",
+  "created_at": "2020-11-03T18:42:50.427Z",
+  "updated_at": "2020-11-03T18:42:50.427Z"
+}
+```
 
 ### Como executar o projeto
 
