@@ -17,73 +17,86 @@
 ## Estrutura de pastas do projeto
 
 ```
-├── yarn.lock
-├── yarn-error.log
-├── tsconfig.json
+.
+├── README.md
+├── ormconfig.example.json
+├── ormconfig.json
+├── package.json
+├── prettier.config.js
 ├── src
-│   ├── shared
-│   │   ├── infra
-│   │   │   ├── typeorm
-│   │   │   │   ├── migrations
-│   │   │   │   │   ├── 1603119706839-CreateTickets.ts
-│   │   │   │   │   └── 1603119695857-CreateUsers.ts
-│   │   │   │   └── index.ts
-│   │   │   └── http
-│   │   │       ├── server.ts
-│   │   │       └── routes
-│   │   │           └── index.ts
-│   │   └── errors
-│   │       └── AppError.ts
-│   ├── modules
-│   │   ├── users
-│   │   │   ├── services
-│   │   │   │   ├── SessionsUserService.ts
-│   │   │   │   ├── FindUserService.ts
-│   │   │   │   └── CreateUserService.ts
-│   │   │   ├── repositories
-│   │   │   │   └── IUsersRepository.ts
-│   │   │   ├── infra
-│   │   │   │   ├── typeorm
-│   │   │   │   │   ├── repositories
-│   │   │   │   │   │   └── UsersRepository.ts
-│   │   │   │   │   └── entities
-│   │   │   │   │       └── User.ts
-│   │   │   │   └── http
-│   │   │   │       ├── routes
-│   │   │   │       │   ├── users.routes.ts
-│   │   │   │       │   └── sessions.routes.ts
-│   │   │   │       └── middlewares
-│   │   │   │           └── confirmAuthenticated.ts
-│   │   │   └── dtos
-│   │   │       └── ICreateUserDTO.ts
-│   │   └── tickets
-│   │       ├── services
-│   │       │   ├── UpdateTicketMessageService.ts
-│   │       │   ├── ListTicketService.ts
-│   │       │   ├── ListAllTicketsService.ts
-│   │       │   ├── DeleteTicketService.ts
-│   │       │   └── CreateTicketService.ts
-│   │       ├── repositories
-│   │       │   └── ITicketsRepository.ts
-│   │       ├── infra
-│   │       │   ├── typeorm
-│   │       │   │   ├── repositories
-│   │       │   │   │   └── TicketsRepository.ts
-│   │       │   │   └── entities
-│   │       │   │       └── Ticket.ts
-│   │       │   └── http
-│   │       │       └── routes
-│   │       │           └── tickets.routes.ts
-│   │       └── dtos
-│   │           └── ICreateTicketDTO.ts
+│   ├── @types
+│   │   └── express.d.ts
 │   ├── config
 │   │   └── auth.ts
-│   └── @types
-│       └── express.d.ts
-├── prettier.config.js
-├── package.json
-├── ormconfig.json
-└── README.md
+│   ├── examples
+│   │   ├── BuscarTicketPorUsuario.PNG
+│   │   ├── CriarUsuario.PNG
+│   │   └── Session.PNG
+│   ├── modules
+│   │   ├── tickets
+│   │   │   ├── dtos
+│   │   │   │   └── ICreateTicketDTO.ts
+│   │   │   ├── infra
+│   │   │   │   ├── http
+│   │   │   │   │   ├── controllers
+│   │   │   │   │   │   ├── ListTicketsController.ts
+│   │   │   │   │   │   ├── TicketsController.ts
+│   │   │   │   │   │   └── TicketsUpdateController.ts
+│   │   │   │   │   └── routes
+│   │   │   │   │       └── tickets.routes.ts
+│   │   │   │   └── typeorm
+│   │   │   │       ├── entities
+│   │   │   │       │   └── Ticket.ts
+│   │   │   │       └── repositories
+│   │   │   │           └── TicketsRepository.ts
+│   │   │   ├── repositories
+│   │   │   │   └── ITicketsRepository.ts
+│   │   │   └── services
+│   │   │       ├── CreateTicketService.ts
+│   │   │       ├── DeleteTicketService.ts
+│   │   │       ├── ListAllTicketsService.ts
+│   │   │       ├── ListTicketService.ts
+│   │   │       └── UpdateTicketMessageService.ts
+│   │   └── users
+│   │       ├── dtos
+│   │       │   └── ICreateUserDTO.ts
+│   │       ├── infra
+│   │       │   ├── http
+│   │       │   │   ├── controllers
+│   │       │   │   │   ├── SessionsController.ts
+│   │       │   │   │   └── UsersCrontroller.ts
+│   │       │   │   ├── middlewares
+│   │       │   │   │   └── confirmAuthenticated.ts
+│   │       │   │   └── routes
+│   │       │   │       ├── sessions.routes.ts
+│   │       │   │       └── users.routes.ts
+│   │       │   └── typeorm
+│   │       │       ├── entities
+│   │       │       │   └── User.ts
+│   │       │       └── repositories
+│   │       │           └── UsersRepository.ts
+│   │       ├── repositories
+│   │       │   └── IUsersRepository.ts
+│   │       └── services
+│   │           ├── CreateUserService.ts
+│   │           ├── FindUserService.ts
+│   │           └── SessionsUserService.ts
+│   └── shared
+│       ├── errors
+│       │   └── AppError.ts
+│       └── infra
+│           ├── http
+│           │   ├── routes
+│           │   │   └── index.ts
+│           │   └── server.ts
+│           └── typeorm
+│               ├── index.ts
+│               └── migrations
+│                   ├── 1603119695857-CreateUsers.ts
+│                   └── 1603119706839-CreateTickets.ts
+├── tsconfig.json
+├── yarn-error.log
+└── yarn.lock
 ```
 
 ### Funcionalidades desenvolvidas
