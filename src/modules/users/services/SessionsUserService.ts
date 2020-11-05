@@ -1,8 +1,8 @@
-import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import IHashProvider from '@modules/users/providers/models/IHashProvider';
 
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
@@ -18,7 +18,10 @@ interface IResponse {
 }
 
 class SessionsUserService {
-  constructor(private usersRepository: IUsersRepository) {}
+  constructor(
+    private usersRepository: IUsersRepository,
+    private hashProvider: IHashProvider,
+  ) {}
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
@@ -27,7 +30,10 @@ class SessionsUserService {
       throw new AppError('Invalid email or password', 401);
     }
 
-    const passwordMatched = await compare(password, user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
     if (!passwordMatched) {
       throw new AppError('Invalid email or password', 401);
