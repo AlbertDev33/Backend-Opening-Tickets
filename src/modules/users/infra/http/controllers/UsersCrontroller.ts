@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import BCryptHashProvider from '@modules/users/providers/implementations/BCryptHashProvider';
+import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 import FindUserService from '@modules/users/services/FindUserService';
 
 export default class UsersController {
