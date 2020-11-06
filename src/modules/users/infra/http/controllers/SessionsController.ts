@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import SessionsUserService from '@modules/users/services/SessionsUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import BCryptHashProvider from '@modules/users/providers/implementations/BCryptHashProvider';
+import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 
 export default class SessionsController {
   public async create(request: Request, response: Response): Promise<Response> {
