@@ -29,6 +29,14 @@ class FakeUsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  public async save(user: User): Promise<User> {
+    const userData = new User();
+
+    this.users.push(user);
+
+    return userData;
+  }
 }
 
 export default FakeUsersRepository;
