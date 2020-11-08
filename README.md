@@ -131,6 +131,8 @@
 ### Funcionalidades desenvolvidas
 
 - Criar sessão do usuário
+- Envio de e-mail de recuperação de senha
+- Reset de senha do usuário
 - Update da mensagem do ticket
 - Encerrar um tiket
 - Buscar todos os tickets por usuário
@@ -188,6 +190,23 @@
   "id": "f4910ed4-2537-4968-a69f-ee0fd026dba8",
   "created_at": "2020-11-03T18:42:50.427Z",
   "updated_at": "2020-11-03T18:42:50.427Z"
+}
+```
+
+#### Enviar um e-mail de recuperação de senha para um usuário
+
+```json
+{
+	"email": "albert@migrar.cloud"
+}
+```
+
+#### Reset de senha do usuário usuário
+
+```json
+{
+	"password": "123123",
+	"token": "af13d558-9bd3-445e-80c8-ffd91bb22a85"
 }
 ```
 
