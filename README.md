@@ -3,6 +3,12 @@
 ### Bibliotecas e recursos utilizados no projeto
 
 - express - Frameword para configuração do servidor
+- express-async-errors - Tratamento de erros em requisições assíncronas
+- Nodemailer - Biblioteca bem conhecida para envio de e-mails com Node.js
+- tsyringe - Biblioteca para tratamento de Injeção de Dependência
+- uuidv4 - Biblioteca utilizada para gerar uma sequência de caracteres únicos
+(nesse projeto foi utilizado para gerar o token de recuperação de senha)
+- Jest - Ferramenta utilizada para implementação de testes automatizados
 - typeorm - ORM utilizado para gerar as query para o banco de dados
 - pg - Plugin para utilizar o postgreSQL
 - bcrypt - Biblioteca utilizada para gerar o hash da senha do usuário
