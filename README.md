@@ -17,83 +17,112 @@
 ## Estrutura de pastas do projeto
 
 ```
-.
 ├── README.md
+├── jest.config.ts
 ├── ormconfig.example.json
 ├── ormconfig.json
 ├── package.json
 ├── prettier.config.js
 ├── src
-│   ├── @types
-│   │   └── express.d.ts
-│   ├── config
-│   │   └── auth.ts
-│   ├── examples
-│   │   ├── BuscarTicketPorUsuario.PNG
-│   │   ├── CriarUsuario.PNG
-│   │   └── Session.PNG
-│   ├── modules
-│   │   ├── tickets
-│   │   │   ├── dtos
-│   │   │   │   └── ICreateTicketDTO.ts
-│   │   │   ├── infra
-│   │   │   │   ├── http
-│   │   │   │   │   ├── controllers
-│   │   │   │   │   │   ├── ListTicketsController.ts
-│   │   │   │   │   │   ├── TicketsController.ts
-│   │   │   │   │   │   └── TicketsUpdateController.ts
-│   │   │   │   │   └── routes
-│   │   │   │   │       └── tickets.routes.ts
-│   │   │   │   └── typeorm
-│   │   │   │       ├── entities
-│   │   │   │       │   └── Ticket.ts
-│   │   │   │       └── repositories
-│   │   │   │           └── TicketsRepository.ts
-│   │   │   ├── repositories
-│   │   │   │   └── ITicketsRepository.ts
-│   │   │   └── services
-│   │   │       ├── CreateTicketService.ts
-│   │   │       ├── DeleteTicketService.ts
-│   │   │       ├── ListAllTicketsService.ts
-│   │   │       ├── ListTicketService.ts
-│   │   │       └── UpdateTicketMessageService.ts
-│   │   └── users
-│   │       ├── dtos
-│   │       │   └── ICreateUserDTO.ts
-│   │       ├── infra
-│   │       │   ├── http
-│   │       │   │   ├── controllers
-│   │       │   │   │   ├── SessionsController.ts
-│   │       │   │   │   └── UsersCrontroller.ts
-│   │       │   │   ├── middlewares
-│   │       │   │   │   └── confirmAuthenticated.ts
-│   │       │   │   └── routes
-│   │       │   │       ├── sessions.routes.ts
-│   │       │   │       └── users.routes.ts
-│   │       │   └── typeorm
-│   │       │       ├── entities
-│   │       │       │   └── User.ts
-│   │       │       └── repositories
-│   │       │           └── UsersRepository.ts
-│   │       ├── repositories
-│   │       │   └── IUsersRepository.ts
-│   │       └── services
-│   │           ├── CreateUserService.ts
-│   │           ├── FindUserService.ts
-│   │           └── SessionsUserService.ts
-│   └── shared
-│       ├── errors
-│       │   └── AppError.ts
-│       └── infra
-│           ├── http
-│           │   ├── routes
-│           │   │   └── index.ts
-│           │   └── server.ts
-│           └── typeorm
-│               ├── index.ts
-│               └── migrations
-│                   ├── 1603119695857-CreateUsers.ts
-│                   └── 1603119706839-CreateTickets.ts
+│   ├── @types
+│   │   └── express.d.ts
+│   ├── config
+│   │   └── auth.ts
+│   ├── modules
+│   │   ├── tickets
+│   │   │   ├── dtos
+│   │   │   │   └── ICreateTicketDTO.ts
+│   │   │   ├── infra
+│   │   │   │   ├── http
+│   │   │   │   │   ├── controllers
+│   │   │   │   │   │   ├── ListTicketsController.ts
+│   │   │   │   │   │   ├── TicketsController.ts
+│   │   │   │   │   │   └── TicketsUpdateController.ts
+│   │   │   │   │   └── routes
+│   │   │   │   │       └── tickets.routes.ts
+│   │   │   │   └── typeorm
+│   │   │   │       ├── entities
+│   │   │   │       │   └── Ticket.ts
+│   │   │   │       └── repositories
+│   │   │   │           └── TicketsRepository.ts
+│   │   │   ├── repositories
+│   │   │   │   └── ITicketsRepository.ts
+│   │   │   └── services
+│   │   │       ├── CreateTicketService.ts
+│   │   │       ├── DeleteTicketService.ts
+│   │   │       ├── ListAllTicketsService.ts
+│   │   │       ├── ListTicketService.ts
+│   │   │       └── UpdateTicketMessageService.ts
+│   │   └── users
+│   │       ├── dtos
+│   │       │   └── ICreateUserDTO.ts
+│   │       ├── infra
+│   │       │   ├── http
+│   │       │   │   ├── controllers
+│   │       │   │   │   ├── ForgotPasswordController.ts
+│   │       │   │   │   ├── ResetPasswordController.ts
+│   │       │   │   │   ├── SessionsController.ts
+│   │       │   │   │   └── UsersCrontroller.ts
+│   │       │   │   ├── middlewares
+│   │       │   │   │   └── confirmAuthenticated.ts
+│   │       │   │   └── routes
+│   │       │   │       ├── password.routes.ts
+│   │       │   │       ├── sessions.routes.ts
+│   │       │   │       └── users.routes.ts
+│   │       │   └── typeorm
+│   │       │       ├── entities
+│   │       │       │   ├── User.ts
+│   │       │       │   └── UserToken.ts
+│   │       │       └── repositories
+│   │       │           ├── UserTokensRepository.ts
+│   │       │           └── UsersRepository.ts
+│   │       ├── providers
+│   │       │   └── HashProvider
+│   │       │       ├── fakes
+│   │       │       │   └── FakeHashProvider.ts
+│   │       │       ├── implementations
+│   │       │       │   └── BCryptHashProvider.ts
+│   │       │       └── models
+│   │       │           └── IHashProvider.ts
+│   │       ├── repositories
+│   │       │   ├── IUserTokensRepository.ts
+│   │       │   ├── IUsersRepository.ts
+│   │       │   └── fakes
+│   │       │       ├── FakeUserTokensRepository.ts
+│   │       │       └── FakeUsersRepository.ts
+│   │       └── services
+│   │           ├── CreateUserService.spec.ts
+│   │           ├── CreateUserService.ts
+│   │           ├── FindUserService.ts
+│   │           ├── ResetPasswordService.spec.ts
+│   │           ├── ResetPasswordService.ts
+│   │           ├── SendForgotPasswordEmailService.spec.ts
+│   │           ├── SendForgotPasswordEmailService.ts
+│   │           ├── SessionsUserService.spec.ts
+│   │           └── SessionsUserService.ts
+│   └── shared
+│       ├── errors
+│       │   └── AppError.ts
+│       ├── infra
+│       │   ├── http
+│       │   │   ├── routes
+│       │   │   │   └── index.ts
+│       │   │   └── server.ts
+│       │   └── typeorm
+│       │       ├── index.ts
+│       │       └── migrations
+│       │           ├── 1603119695857-CreateUsers.ts
+│       │           ├── 1603119706839-CreateTickets.ts
+│       │           └── 1604615123079-CreateUserTokens.ts
+│       └── providers
+│           ├── MailProvider
+│           │   ├── fakes
+│           │   │   └── FakeMailProvider.ts
+│           │   ├── implementations
+│           │   │   └── EtherealMailProvider.ts
+│           │   └── models
+│           │       └── IMailProvider.ts
+│           └── index.ts
 ├── tsconfig.json
 ├── yarn-error.log
 └── yarn.lock
