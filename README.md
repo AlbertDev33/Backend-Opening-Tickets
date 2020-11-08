@@ -6,6 +6,8 @@
 - express-async-errors - Tratamento de erros em requisições assíncronas
 - Nodemailer - Biblioteca bem conhecida para envio de e-mails com Node.js
 - tsyringe - Biblioteca para tratamento de Injeção de Dependência
+- handlebars - Ferramenta de template engine. Utilizada nesse projeto para
+padronizar templates de envio de e-mail.
 - uuidv4 - Biblioteca utilizada para gerar uma sequência de caracteres únicos
 (nesse projeto foi utilizado para gerar o token de recuperação de senha)
 - Jest - Ferramenta utilizada para implementação de testes automatizados
@@ -96,16 +98,18 @@
 │   │       │   └── fakes
 │   │       │       ├── FakeUserTokensRepository.ts
 │   │       │       └── FakeUsersRepository.ts
-│   │       └── services
-│   │           ├── CreateUserService.spec.ts
-│   │           ├── CreateUserService.ts
-│   │           ├── FindUserService.ts
-│   │           ├── ResetPasswordService.spec.ts
-│   │           ├── ResetPasswordService.ts
-│   │           ├── SendForgotPasswordEmailService.spec.ts
-│   │           ├── SendForgotPasswordEmailService.ts
-│   │           ├── SessionsUserService.spec.ts
-│   │           └── SessionsUserService.ts
+│   │       ├── services
+│   │       │   ├── CreateUserService.spec.ts
+│   │       │   ├── CreateUserService.ts
+│   │       │   ├── FindUserService.ts
+│   │       │   ├── ResetPasswordService.spec.ts
+│   │       │   ├── ResetPasswordService.ts
+│   │       │   ├── SendForgotPasswordEmailService.spec.ts
+│   │       │   ├── SendForgotPasswordEmailService.ts
+│   │       │   ├── SessionsUserService.spec.ts
+│   │       │   └── SessionsUserService.ts
+│   │       └── templates
+│   │           └── forgot_password.hbs
 │   └── shared
 │       ├── errors
 │       │   └── AppError.ts
@@ -122,12 +126,23 @@
 │       │           └── 1604615123079-CreateUserTokens.ts
 │       └── providers
 │           ├── MailProvider
+│           │   ├── dtos
+│           │   │   └── ISendMailDTO.ts
 │           │   ├── fakes
 │           │   │   └── FakeMailProvider.ts
 │           │   ├── implementations
 │           │   │   └── EtherealMailProvider.ts
 │           │   └── models
 │           │       └── IMailProvider.ts
+│           ├── MailTemplateProvider
+│           │   ├── dtos
+│           │   │   └── IParseMailTemplateDTO.ts
+│           │   ├── fakes
+│           │   │   └── FakeMailTemplateProvider.ts
+│           │   ├── implementations
+│           │   │   └── HandlebarsMailTemplateProvider.ts
+│           │   └── models
+│           │       └── IMailTemplateProvider.ts
 │           └── index.ts
 ├── tsconfig.json
 ├── yarn-error.log
