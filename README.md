@@ -11,8 +11,8 @@ como por exemplo:
 
 ## Bancos de Dados utilizados no projeto (com Docker)
 
-PostgreSQL - Esse banco foi utilizado basicamente pela sua robustez
-Redis - Banco não relacional. Foi utilizado para armazernar algumas consultas em cache
+- PostgreSQL - Esse banco foi utilizado basicamente pela sua robustez
+- Redis - Banco não relacional. Foi utilizado para armazernar algumas consultas em cache
 
 ### Bibliotecas e recursos utilizados no projeto
 
