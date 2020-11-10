@@ -4,7 +4,10 @@ import SendForgotPasswordEmailService from '@modules/users/services/SendForgotPa
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 import EtherealMailProvider from '@shared/providers/MailProvider/implementations/EtherealMailProvider';
+import SESMailProvider from '@shared/providers/MailProvider/implementations/SESMailProvider';
 import HandlebarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
+
+import mailConfig from '@config/mail';
 
 export default class ForgotPasswordController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -15,11 +18,16 @@ export default class ForgotPasswordController {
     const etherealMailProvider = new EtherealMailProvider(
       handlebarsMailTemplate,
     );
+    const sesMailProvider = new SESMailProvider(handlebarsMailTemplate);
+
     const userTokensRepository = new UserTokensRepository();
+
+    const driverMail =
+      mailConfig.driver === 'ethereal' ? etherealMailProvider : sesMailProvider;
 
     const sesssionUser = new SendForgotPasswordEmailService(
       usersRepository,
-      etherealMailProvider,
+      driverMail,
       userTokensRepository,
     );
 
