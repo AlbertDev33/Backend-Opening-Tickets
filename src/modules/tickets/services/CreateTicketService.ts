@@ -1,5 +1,6 @@
 import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
-import TicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
+import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
+import ICacheProvider from '@shared/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
   subject: string;
@@ -8,7 +9,11 @@ interface IRequest {
 }
 
 class CreateTicketService {
-  constructor(private ticketsRepository: TicketsRepository) {}
+  constructor(
+    private ticketsRepository: ITicketsRepository,
+
+    private cacheProvider: ICacheProvider,
+  ) {}
 
   public async execute({
     subject,
@@ -20,6 +25,8 @@ class CreateTicketService {
       message,
       user_id,
     });
+
+    await this.cacheProvider.invalidatePrefix('ticketList');
 
     return ticket;
   }
