@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
 
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
@@ -20,9 +21,7 @@ export default class UsersController {
       password,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json({ user: classToClass(user) });
   }
 
   public async index(request: Request, response: Response): Promise<Response> {
@@ -33,8 +32,6 @@ export default class UsersController {
 
     const user = await findUser.execute({ id });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json({ user: classToClass(user) });
   }
 }
