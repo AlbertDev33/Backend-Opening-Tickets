@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { classToClass } from 'class-transformer';
 
 import SessionsUserService from '@modules/users/services/SessionsUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
@@ -18,8 +19,6 @@ export default class SessionsController {
       password,
     });
 
-    delete user.password;
-
-    return response.json({ user, token });
+    return response.json({ user: classToClass(user), token });
   }
 }
