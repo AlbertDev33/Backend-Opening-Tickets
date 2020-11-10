@@ -6,6 +6,7 @@ import DeleteTicketService from '@modules/tickets/services/DeleteTicketService';
 
 import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import RedisCacheProvider from '@shared/providers/CacheProvider/implementations/RedisCacheProvider';
 
 export default class TicketsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -13,7 +14,12 @@ export default class TicketsController {
     const { subject, message } = request.body;
 
     const ticketsRepository = new TicketsRepository();
-    const createTicket = new CreateTicketService(ticketsRepository);
+    const redisCacheProvider = new RedisCacheProvider();
+
+    const createTicket = new CreateTicketService(
+      ticketsRepository,
+      redisCacheProvider,
+    );
 
     const ticket = await createTicket.execute({
       subject,
@@ -29,10 +35,12 @@ export default class TicketsController {
 
     const ticketsRepository = new TicketsRepository();
     const usersRepository = new UsersRepository();
+    const redisCacheProvider = new RedisCacheProvider();
 
     const findAllTickets = new ListAllTicketsService(
       ticketsRepository,
       usersRepository,
+      redisCacheProvider,
     );
 
     const tickets = await findAllTickets.execute({ user_id: id });
