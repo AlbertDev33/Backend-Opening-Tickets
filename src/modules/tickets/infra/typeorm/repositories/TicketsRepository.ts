@@ -21,8 +21,12 @@ class TicketsRepository implements ITicketsRepository {
     return tickets;
   }
 
-  public async findById(ticket_id: string): Promise<Ticket | undefined> {
+  public async findById(ticket_id: string): Promise<Ticket | null> {
     const findTicket = await this.ormRepository.findOne(ticket_id);
+
+    if (!findTicket) {
+      return null;
+    }
 
     return findTicket;
   }
