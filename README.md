@@ -9,6 +9,10 @@
 - handlebars - Ferramenta de template engine. Utilizada nesse projeto para
 padronizar templates de envio de e-mail.
 - uuidv4 - Biblioteca utilizada para gerar uma sequência de caracteres únicos
+- class-transformer - Essa biblioteca foi utilizada nesse projeto para excluir
+o password do usuário no retorno das requisições.
+- celebrate - Essa biblioteca foi utilizada nesse projeto para validação dos
+campos no lado do backend
 (nesse projeto foi utilizado para gerar o token de recuperação de senha)
 - Jest - Ferramenta utilizada para implementação de testes automatizados
 - typeorm - ORM utilizado para gerar as query para o banco de dados
