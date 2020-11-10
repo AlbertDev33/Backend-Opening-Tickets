@@ -1,5 +1,19 @@
 # Sistama de abertura de tickets
 
+## Informações gerais
+
+Essa API foi desenvolvida utilizando Node junto ao Typescript, utilizando TDD e alguns conceitos do SOLID,
+como por exemplo:
+
+- Single Responsability Principle;
+- Liskov Substitution Principle;
+- Dependency Inversion.
+
+## Bancos de Dados utilizados no projeto (com Docker)
+
+PostgreSQL - Esse banco foi utilizado basicamente pela sua robustez.
+Redis - Banco não relaciona. Foi utilizado para armazernar algumas consultas em cache.
+
 ### Bibliotecas e recursos utilizados no projeto
 
 - express - Frameword para configuração do servidor
@@ -39,7 +53,9 @@ campos no lado do backend
 │   ├── @types
 │   │   └── express.d.ts
 │   ├── config
-│   │   └── auth.ts
+│   │   ├── auth.ts
+│   │   ├── cache.ts
+│   │   └── mail.ts
 │   ├── modules
 │   │   ├── tickets
 │   │   │   ├── dtos
@@ -129,13 +145,21 @@ campos no lado do backend
 │       │           ├── 1603119706839-CreateTickets.ts
 │       │           └── 1604615123079-CreateUserTokens.ts
 │       └── providers
+│           ├── CacheProvider
+│           │   ├── dtos
+│           │   ├── fakes
+│           │   ├── implementations
+│           │   │   └── RedisCacheProvider.ts
+│           │   └── models
+│           │       └── ICacheProvider.ts
 │           ├── MailProvider
 │           │   ├── dtos
 │           │   │   └── ISendMailDTO.ts
 │           │   ├── fakes
 │           │   │   └── FakeMailProvider.ts
 │           │   ├── implementations
-│           │   │   └── EtherealMailProvider.ts
+│           │   │   ├── EtherealMailProvider.ts
+│           │   │   └── SESMailProvider.ts
 │           │   └── models
 │           │       └── IMailProvider.ts
 │           ├── MailTemplateProvider
