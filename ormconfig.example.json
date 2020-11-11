@@ -9,7 +9,7 @@
     "entities": [
       "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
-    "database": "projeto_alterdata",
+    "database": "abertura_ticket",
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
     ],
