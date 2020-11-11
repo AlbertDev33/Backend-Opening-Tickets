@@ -267,6 +267,6 @@ campos no lado do backend
 variável ambiente
 - Substitua as credenciais de acesso ao banco de dados no arquivo ormconfig.json
 - Coloque seu banco de dados em funcionamento para que a API possa se conectar
-a ela.
+à ela.
 - Rode o comando yarn dev:server ou altere o script no pakage.json;
 
