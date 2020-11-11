@@ -1,18 +1,18 @@
-# Sistama de abertura de tickets
+# Sistema de abertura de tickets
 
 ## Informações gerais
 
-Essa API foi desenvolvida utilizando Node junto ao Typescript, utilizando TDD e alguns conceitos do SOLID,
+Essa API foi desenvolvida utilizando Node.js junto ao Typescript, utilizando TDD e alguns conceitos do SOLID,
 como por exemplo:
 
 - Single Responsability Principle;
 - Liskov Substitution Principle;
 - Dependency Inversion.
 
-## Bancos de Dados utilizados no projeto (com Docker)
+## Bancos de Dados utilizados no projeto (rodando no Docker)
 
-- PostgreSQL - Esse banco foi utilizado basicamente pela sua robustez
-- Redis - Banco não relacional. Foi utilizado para armazernar algumas consultas em cache
+- PostgreSQL - Esse banco foi utilizado basicamente pela sua robustez e por ser muito utilizado em ambiente de produção
+- Redis - Banco não relacional. Foi utilizado para armazernar algumas consultas em cache, minimizando as chamadas ao banco de dados. Isso traz uma melhora considerável de performance para a aplicação.
 
 ### Bibliotecas e recursos utilizados no projeto
 
