@@ -19,8 +19,6 @@ class CreateTicketService {
     if (!listTicket) {
       listTicket = await this.ticketsRepository.findById(ticket_id);
 
-      console.log('A query foi feita no banco');
-
       await this.cacheProvider.save(`ticketList:${ticket_id}`, listTicket);
     }
 
