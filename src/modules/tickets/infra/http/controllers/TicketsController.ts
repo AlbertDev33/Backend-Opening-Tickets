@@ -43,9 +43,9 @@ export default class TicketsController {
       redisCacheProvider,
     );
 
-    const tickets = await findAllTickets.execute({ user_id: id });
+    const allTicketsUser = await findAllTickets.execute({ user_id: id });
 
-    return response.json(tickets);
+    return response.json(allTicketsUser);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
