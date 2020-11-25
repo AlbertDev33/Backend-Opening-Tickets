@@ -3,7 +3,7 @@ import { classToClass } from 'class-transformer';
 
 import SessionsUserService from '@modules/users/services/SessionsUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
-import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
+import BCryptHashProvider from '@shared/providers/HashProvider/implementations/BCryptHashProvider';
 
 export default class SessionsController {
   public async create(request: Request, response: Response): Promise<Response> {
