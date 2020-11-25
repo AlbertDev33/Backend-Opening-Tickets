@@ -19,7 +19,7 @@ Essa API foi desenvolvida utilizando Node.js junto ao Typescript, utilizando con
 
 - Um grande desafio e requereu bastante tempo de estudo, foi a adoção de conceitos do SOLID, citados logo acima.
 
-- A aplicação de Testes Unitários é um ponto extremamente importante no desenvolvimento de uma API. Implementar os testes como estão exigiu bastante tempo de estudo e tentativa e erro.
+- A aplicação de Testes Unitários é um ponto extremamente importante no desenvolvimento de uma API. Implementar os testes como estão atualmente exigiu bastante tempo de estudo e tentativa e erro.
 
 - Implementar o recurso de cache com Redis exigiu algum tempo de estudo, até o resultado final.
 
