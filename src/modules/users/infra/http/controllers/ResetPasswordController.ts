@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import ResetPasswordService from '@modules/users/services/ResetPasswordService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import UserTokensRepository from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
-import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
+import BCryptHashProvider from '@shared/providers/HashProvider/implementations/BCryptHashProvider';
 
 export default class ResetPasswordController {
   public async create(request: Request, response: Response): Promise<Response> {
