@@ -1,13 +1,13 @@
-import { container } from 'tsyringe';
+// import { container } from 'tsyringe';
 
-import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
-import EtherealMailProvider from '@shared/providers/MailProvider/implementations/EtherealMailProvider';
+// import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
+// import EtherealMailProvider from '@shared/providers/MailProvider/implementations/EtherealMailProvider';
 
-import HandlebarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
+// import HandlebarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
 
-const handlebarsMailTemplate = new HandlebarsMailTemplateProvider();
+// const handlebarsMailTemplate = new HandlebarsMailTemplateProvider();
 
-container.registerInstance<IMailProvider>(
-  'MailProvider',
-  new EtherealMailProvider(handlebarsMailTemplate),
-);
+// container.registerInstance<IMailProvider>(
+//   'MailProvider',
+//   new EtherealMailProvider(handlebarsMailTemplate),
+// );
