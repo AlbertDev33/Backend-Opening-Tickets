@@ -1,4 +1,5 @@
 import User from '@modules/users/infra/typeorm/entities/User';
+import Role from '@modules/users/infra/typeorm/entities/Role';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IHashProvider from '@shared/providers/HashProvider/models/IHashProvider';
 
@@ -8,6 +9,7 @@ interface IRequest {
   name: string;
   email: string;
   password: string;
+  roles: Role[];
 }
 
 class CreateUserService {
@@ -17,7 +19,12 @@ class CreateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ name, email, password }: IRequest): Promise<User> {
+  public async execute({
+    name,
+    email,
+    password,
+    roles,
+  }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserExists) {
@@ -30,6 +37,7 @@ class CreateUserService {
       name,
       email,
       password: hashedPassword,
+      roles,
     });
 
     return user;
