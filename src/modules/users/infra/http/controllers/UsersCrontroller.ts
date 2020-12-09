@@ -8,7 +8,7 @@ import FindUserService from '@modules/users/services/FindUserService';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, email, password } = request.body;
+    const { name, email, password, roles } = request.body;
 
     const usersRepository = new UsersRepository();
     const hashProvider = new BCryptHashProvider();
@@ -19,6 +19,7 @@ export default class UsersController {
       name,
       email,
       password,
+      roles,
     });
 
     return response.json({ user: classToClass(user) });
