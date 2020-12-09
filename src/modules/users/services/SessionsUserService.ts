@@ -15,6 +15,7 @@ interface IRequest {
 interface IResponse {
   user: User;
   token: string;
+  userRoles: string | undefined;
 }
 
 class SessionsUserService {
@@ -40,6 +41,8 @@ class SessionsUserService {
       throw new AppError('Invalid email or password', 401);
     }
 
+    const userRoles = await this.usersRepository.findRole(user.id);
+
     const { secret, expiresIn } = authConfig.jwt;
 
     const token = sign({}, secret, {
@@ -47,7 +50,7 @@ class SessionsUserService {
       expiresIn,
     });
 
-    return { user, token };
+    return { user, token, userRoles };
   }
 }
 
