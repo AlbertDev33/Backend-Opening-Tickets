@@ -4,7 +4,7 @@ import TicketsController from '@modules/tickets/infra/http/controllers/TicketsCo
 import TicketsUpdateController from '@modules/tickets/infra/http/controllers/TicketsUpdateController';
 import ListTicketsController from '@modules/tickets/infra/http/controllers/ListTicketsController';
 
-import confirmAuthenticated from '@modules/users/infra/http/middlewares/confirmAuthenticated';
+import confirmAuthenticated from '@shared/infra/http/middlewares/confirmAuthenticated';
 
 const ticketsRouter = Router();
 
