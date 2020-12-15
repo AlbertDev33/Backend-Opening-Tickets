@@ -57,14 +57,6 @@ export default class CreateTickets1605814805715 implements MigrationInterface {
             onDelete: 'SET NULL',
             onUpdate: 'CASCADE',
           },
-          {
-            name: 'AgentTicket',
-            columnNames: ['agent_id'],
-            referencedTableName: 'agents',
-            referencedColumnNames: ['id'],
-            onDelete: 'SET NULL',
-            onUpdate: 'CASCADE',
-          },
         ],
       }),
     );

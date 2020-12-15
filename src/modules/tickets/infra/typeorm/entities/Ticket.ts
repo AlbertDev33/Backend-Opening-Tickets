@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import Agent from '@modules/agents/infra/typeorm/entities/Agent';
 
 @Entity('tickets')
 class Ticket {
@@ -28,10 +27,6 @@ class Ticket {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
-
-  @ManyToOne(() => Agent)
-  @JoinColumn({ name: 'agent_id' })
-  agent: Agent;
 
   @CreateDateColumn()
   created_at: Date;
