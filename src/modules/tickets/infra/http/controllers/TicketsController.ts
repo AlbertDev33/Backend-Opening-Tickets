@@ -10,7 +10,7 @@ import RedisCacheProvider from '@shared/providers/CacheProvider/implementations/
 
 export default class TicketsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { id } = request.user;
+    const { id, userRoles } = request.user;
     const { subject, message } = request.body;
 
     const ticketsRepository = new TicketsRepository();
@@ -20,11 +20,16 @@ export default class TicketsController {
       ticketsRepository,
       redisCacheProvider,
     );
+    const conditionStatus = 'Em dia';
+    const statusInformation = 'Aberto';
 
     const ticket = await createTicket.execute({
       subject,
       message,
       user_id: id,
+      user_role: userRoles,
+      status: statusInformation,
+      condition: conditionStatus,
     });
 
     return response.json(ticket);
