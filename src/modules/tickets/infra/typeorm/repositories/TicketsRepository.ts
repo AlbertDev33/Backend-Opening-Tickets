@@ -22,20 +22,46 @@ class TicketsRepository implements ITicketsRepository {
   }
 
   public async findById(ticket_id: string): Promise<Ticket | undefined> {
-    const findTicket = await this.ormRepository.findOne(ticket_id);
+    const findTicket = await this.ormRepository.findOne({
+      where: { id: ticket_id },
+    });
 
     return findTicket;
+  }
+
+  public async findUserByTicket(user_id: string): Promise<Ticket | undefined> {
+    const findUserByTicket = await this.ormRepository.findOne({
+      where: { user_id },
+    });
+
+    return findUserByTicket;
+  }
+
+  public async findAllOpenedTickets(): Promise<Ticket[] | null> {
+    const accountable = null;
+
+    const findTickets = await this.ormRepository.find({
+      where: { accountable },
+    });
+
+    return findTickets;
   }
 
   public async create({
     subject,
     message,
     user_id,
+    user_role,
+    status,
+    condition,
   }: ICreateTicketDTO): Promise<Ticket> {
     const ticket = this.ormRepository.create({
       subject,
       message,
       user_id,
+      user_role,
+      status,
+      condition,
     });
 
     await this.ormRepository.save(ticket);
@@ -43,7 +69,7 @@ class TicketsRepository implements ITicketsRepository {
     return ticket;
   }
 
-  public async update(ticket: Ticket): Promise<Ticket> {
+  public async save(ticket: Ticket): Promise<Ticket> {
     return this.ormRepository.save(ticket);
   }
 
