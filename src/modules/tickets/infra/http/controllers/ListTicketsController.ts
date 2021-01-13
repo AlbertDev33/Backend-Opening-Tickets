@@ -11,12 +11,12 @@ export default class ListTicketsController {
     const ticketsRepository = new TicketsRepository();
     const redisCacheProvider = new RedisCacheProvider();
 
-    const findTicket = new ListTicketService(
+    const listTickets = new ListTicketService(
       ticketsRepository,
       redisCacheProvider,
     );
 
-    const ticket = await findTicket.execute(ticket_id);
+    const ticket = await listTickets.execute(ticket_id);
 
     return response.json(ticket);
   }
