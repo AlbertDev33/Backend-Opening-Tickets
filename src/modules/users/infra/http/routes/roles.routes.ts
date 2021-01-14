@@ -6,6 +6,8 @@ import RolesController from '@modules/users/infra/http/controllers/RolesControll
 const rolesRouter = Router();
 const rolesController = new RolesController();
 
+rolesRouter.get('/:token', rolesController.index);
+
 rolesRouter.post(
   '/',
   celebrate({

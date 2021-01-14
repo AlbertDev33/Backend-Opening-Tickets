@@ -41,6 +41,7 @@ class CreateTicketService {
     });
 
     await this.cacheProvider.invalidatePrefix('ticketList');
+    await this.cacheProvider.invalidatePrefix('TicketOpened');
 
     return ticket;
   }

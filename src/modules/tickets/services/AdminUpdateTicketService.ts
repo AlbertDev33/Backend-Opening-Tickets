@@ -74,7 +74,7 @@ class AdminUpdateTicketService {
 
     const ticketUpdate = await this.ticketsRepository.save(ticket);
 
-    await this.cacheProvider.invalidatePrefix('ticketList');
+    await this.cacheProvider.invalidatePrefix('TicketOpened');
 
     return ticketUpdate;
   }

@@ -13,6 +13,7 @@ interface IRequest {
 class UpdateTicketService {
   constructor(
     private ticketsRepository: ITicketsRepository,
+
     private usersRepository: IUsersRepository,
   ) {}
 
@@ -35,7 +36,7 @@ class UpdateTicketService {
 
     ticket.message = message;
 
-    const newMessage = await this.ticketsRepository.update(ticket);
+    const newMessage = await this.ticketsRepository.save(ticket);
 
     return newMessage;
   }

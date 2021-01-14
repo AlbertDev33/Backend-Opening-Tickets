@@ -15,7 +15,7 @@ interface IRequest {
 interface IResponse {
   user: User;
   token: string;
-  userRoles: string | undefined;
+  // userRoles: string | undefined;
 }
 
 class SessionsUserService {
@@ -45,12 +45,12 @@ class SessionsUserService {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, secret, {
+    const token = sign({ userRoles }, secret, {
       subject: user.id,
       expiresIn,
     });
 
-    return { user, token, userRoles };
+    return { user, token };
   }
 }
 

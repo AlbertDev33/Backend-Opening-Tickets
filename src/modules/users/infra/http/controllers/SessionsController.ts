@@ -14,11 +14,11 @@ export default class SessionsController {
 
     const sesssionUser = new SessionsUserService(usersRepository, hashProvider);
 
-    const { user, token, userRoles } = await sesssionUser.execute({
+    const { user, token } = await sesssionUser.execute({
       email,
       password,
     });
 
-    return response.json({ user: classToClass(user), token, userRoles });
+    return response.json({ user: classToClass(user), token });
   }
 }
