@@ -8,9 +8,10 @@ interface ITokenPayload {
   iat: number;
   exp: number;
   sub: string;
+  userRoles: string;
 }
 
-export default function confirmAuthenticated(
+export default function confirmAdminAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
@@ -28,14 +29,18 @@ export default function confirmAuthenticated(
   try {
     const decoded = verify(token, secret);
 
-    const { sub } = decoded as ITokenPayload;
+    const { sub, userRoles } = decoded as ITokenPayload;
 
     request.user = {
       id: sub,
+      userRoles,
     };
 
+    // if (userRoles !== process.env.USER_ROLE) {
+    //   throw new AppError('Not authorized!', 401);
+    // }
     return next();
   } catch {
-    throw new AppError('Invalid JWT token', 401);
+    throw new AppError('Not authorized!', 401);
   }
 }

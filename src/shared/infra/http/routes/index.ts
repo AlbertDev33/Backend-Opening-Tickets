@@ -6,6 +6,7 @@ import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import permissionsRouter from '@modules/users/infra/http/routes/permissions.routes';
 import rolesRouter from '@modules/users/infra/http/routes/roles.routes';
+import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 
 const routes = Router();
 
@@ -14,6 +15,7 @@ routes.use('/tickets', ticketsRouter);
 routes.use('/sessions', sessionsRouter);
 routes.use('/password', passwordRouter);
 routes.use('/permissions', permissionsRouter);
-routes.use('/roles', rolesRouter);
+routes.use('/user/roles', rolesRouter);
+routes.use('/profile', profileRouter);
 
 export default routes;
