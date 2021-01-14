@@ -23,181 +23,171 @@ Essa API foi desenvolvida utilizando Node.js junto ao Typescript, utilizando con
 
 - Implementar o recurso de cache com Redis exigiu algum tempo de estudo, até o resultado final.
 
-- A configuração do SES da AWS exigiu algum tempo de estudo e leitura da documentação para chegar até o resultado atual. Está totalmente funcional, bastando apenas incluir as informações de acesso no arquivo .env e realizar os testes (é necessário ter uma configuração acesso ao serviço da AWS).
-### Bibliotecas e recursos utilizados no projeto
-
-- express - Frameword para configuração do servidor
-- express-async-errors - Tratamento de erros em requisições assíncronas
-- Nodemailer - Biblioteca bem conhecida para envio de e-mails com Node.js
-- tsyringe - Biblioteca para tratamento de Injeção de Dependência
-- handlebars - Ferramenta de template engine. Utilizada nesse projeto para
-padronizar templates de envio de e-mail.
-- uuidv4 - Biblioteca utilizada para gerar uma sequência de caracteres únicos. Nesse projeto foi utilizada para gerar um id válido para o usuário nos testes unitários.
-- class-transformer - Essa biblioteca foi utilizada nesse projeto para excluir
-o password do usuário no retorno das requisições.
-- celebrate - Essa biblioteca foi utilizada nesse projeto para validação dos
-campos no lado do backend
-(nesse projeto foi utilizado para gerar o token de recuperação de senha)
-- Jest - Ferramenta utilizada para implementação de testes automatizados
-- typeorm - ORM utilizado para gerar as query para o banco de dados
-- pg - Plugin para utilizar o postgreSQL
-- bcrypt - Biblioteca utilizada para gerar o hash da senha do usuário
-- jsonwebtoken - Biblioteca utilizada para gerar o token do usuário
-- reflect-metadata - Biblioteca para utilização de decorators do typeorm.
-- eslint - Padronização do código.
-- prettier - Padronização do código.
-- editorconfig - Padronização do código.
-- ts-node-dev - Biblioteca que permite rodar o servidor de forma mais simples com o typescript.
-- tsconfig-paths - Biblioteca utilizada para gerar os caminhos das pastas com @ e facilitar a leitura.
-- aws-sdk - Biblioteca utilizada para utilizar as configurações necessárias para implementação do serviço de envio de e-mail utilizando o SES.
+- A configuração do SES da AWS exigiu um bom tempo de estudo e leitura da documentação para chegar até o resultado atual. Está totalmente funcional, bastando apenas incluir as informações de acesso no arquivo .env e realizar os testes (é necessário ter uma configuração de acesso ao serviço da AWS).
 ## Estrutura de pastas do projeto
 
 ```
-src/
-├── @types
-│   └── express.d.ts
-├── config
-│   ├── auth.ts
-│   ├── cache.ts
-│   └── mail.ts
-├── modules
-│   ├── agents
-│   │   ├── dtos
-│   │   │   └── ICreateAgentDTO.ts
-│   │   ├── infra
-│   │   │   ├── http
-│   │   │   │   ├── controllers
-│   │   │   │   │   └── AgentsControllers.ts
-│   │   │   │   ├── middlewares
-│   │   │   │   └── routes
-│   │   │   │       └── agents.routes.ts
-│   │   │   └── typeorm
-│   │   │       ├── entities
-│   │   │       │   └── Agent.ts
-│   │   │       └── repositories
-│   │   │           └── AgentsRepository.ts
-│   │   ├── repositories
-│   │   │   ├── IAgentsRespository.ts
-│   │   │   └── fakes
-│   │   │       └── FakeAgentsRepository.ts
-│   │   └── services
-│   │       ├── CreateAgentService.spec.ts
-│   │       └── CreateAgentService.ts
-│   ├── tickets
-│   │   ├── dtos
-│   │   │   └── ICreateTicketDTO.ts
-│   │   ├── infra
-│   │   │   ├── http
-│   │   │   │   ├── controllers
-│   │   │   │   │   ├── ListTicketsController.ts
-│   │   │   │   │   ├── TicketsController.ts
-│   │   │   │   │   └── TicketsUpdateController.ts
-│   │   │   │   └── routes
-│   │   │   │       └── tickets.routes.ts
-│   │   │   └── typeorm
-│   │   │       ├── entities
-│   │   │       │   └── Ticket.ts
-│   │   │       └── repositories
-│   │   │           └── TicketsRepository.ts
-│   │   ├── repositories
-│   │   │   └── ITicketsRepository.ts
-│   │   └── services
-│   │       ├── CreateTicketService.ts
-│   │       ├── DeleteTicketService.ts
-│   │       ├── ListAllTicketsService.ts
-│   │       ├── ListTicketService.ts
-│   │       └── UpdateTicketMessageService.ts
-│   └── users
-│       ├── dtos
-│       │   └── ICreateUserDTO.ts
-│       ├── infra
-│       │   ├── http
-│       │   │   ├── controllers
-│       │   │   │   ├── ForgotPasswordController.ts
-│       │   │   │   ├── ResetPasswordController.ts
-│       │   │   │   ├── SessionsController.ts
-│       │   │   │   └── UsersCrontroller.ts
-│       │   │   ├── middlewares
-│       │   │   │   └── confirmAuthenticated.ts
-│       │   │   └── routes
-│       │   │       ├── password.routes.ts
-│       │   │       ├── sessions.routes.ts
-│       │   │       └── users.routes.ts
-│       │   └── typeorm
-│       │       ├── entities
-│       │       │   ├── User.ts
-│       │       │   └── UserToken.ts
-│       │       └── repositories
-│       │           ├── UserTokensRepository.ts
-│       │           └── UsersRepository.ts
-│       ├── repositories
-│       │   ├── IUserTokensRepository.ts
-│       │   ├── IUsersRepository.ts
-│       │   └── fakes
-│       │       ├── FakeUserTokensRepository.ts
-│       │       └── FakeUsersRepository.ts
-│       ├── services
-│       │   ├── CreateUserService.spec.ts
-│       │   ├── CreateUserService.ts
-│       │   ├── FindUserService.ts
-│       │   ├── ResetPasswordService.spec.ts
-│       │   ├── ResetPasswordService.ts
-│       │   ├── SendForgotPasswordEmailService.spec.ts
-│       │   ├── SendForgotPasswordEmailService.ts
-│       │   ├── SessionsUserService.spec.ts
-│       │   └── SessionsUserService.ts
-│       └── templates
-│           └── forgot_password.hbs
-└── shared
-    ├── errors
-    │   └── AppError.ts
-    ├── infra
-    │   ├── http
-    │   │   ├── routes
-    │   │   │   └── index.ts
-    │   │   └── server.ts
-    │   └── typeorm
-    │       ├── index.ts
-    │       └── migrations
-    │           ├── 1603119695857-CreateUsers.ts
-    │           ├── 1604615123079-CreateUserTokens.ts
-    │           ├── 1605813313569-CreateAgent.ts
-    │           └── 1605814805715-CreateTickets.ts
-    └── providers
-        ├── CacheProvider
-        │   ├── dtos
-        │   ├── fakes
-        │   ├── implementations
-        │   │   └── RedisCacheProvider.ts
-        │   └── models
-        │       └── ICacheProvider.ts
-        ├── HashProvider
-        │   ├── fakes
-        │   │   └── FakeHashProvider.ts
-        │   ├── implementations
-        │   │   └── BCryptHashProvider.ts
-        │   └── models
-        │       └── IHashProvider.ts
-        ├── MailProvider
-        │   ├── dtos
-        │   │   └── ISendMailDTO.ts
-        │   ├── fakes
-        │   │   └── FakeMailProvider.ts
-        │   ├── implementations
-        │   │   ├── EtherealMailProvider.ts
-        │   │   └── SESMailProvider.ts
-        │   └── models
-        │       └── IMailProvider.ts
-        ├── MailTemplateProvider
-        │   ├── dtos
-        │   │   └── IParseMailTemplateDTO.ts
-        │   ├── fakes
-        │   │   └── FakeMailTemplateProvider.ts
-        │   ├── implementations
-        │   │   └── HandlebarsMailTemplateProvider.ts
-        │   └── models
-        │       └── IMailTemplateProvider.ts
-        └── index.ts
+📦src
+ ┣ 📂@types
+ ┃ ┗ 📜express.d.ts
+ ┣ 📂config
+ ┃ ┣ 📜auth.ts
+ ┃ ┣ 📜cache.ts
+ ┃ ┣ 📜mail.ts
+ ┃ ┗ 📜upload.ts
+ ┣ 📂modules
+ ┃ ┣ 📂tickets
+ ┃ ┃ ┣ 📂dtos
+ ┃ ┃ ┃ ┣ 📜ICreateTicketDTO.ts
+ ┃ ┃ ┃ ┗ 📜IUpdateTicketDTO.ts
+ ┃ ┃ ┣ 📂infra
+ ┃ ┃ ┃ ┣ 📂http
+ ┃ ┃ ┃ ┃ ┣ 📂controllers
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜AdminUpdateTicketsController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜ListOpenedTicketsController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜ListTicketsController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜TicketsController.ts
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜TicketsUpdateController.ts
+ ┃ ┃ ┃ ┃ ┗ 📂routes
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜tickets.routes.ts
+ ┃ ┃ ┃ ┗ 📂typeorm
+ ┃ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜Ticket.ts
+ ┃ ┃ ┃ ┃ ┗ 📂repositories
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜TicketsRepository.ts
+ ┃ ┃ ┣ 📂repositories
+ ┃ ┃ ┃ ┗ 📜ITicketsRepository.ts
+ ┃ ┃ ┗ 📂services
+ ┃ ┃ ┃ ┣ 📜AdminUpdateTicketService.ts
+ ┃ ┃ ┃ ┣ 📜CreateTicketService.ts
+ ┃ ┃ ┃ ┣ 📜DeleteTicketService.ts
+ ┃ ┃ ┃ ┣ 📜ListAllOpenedTicketsService.ts
+ ┃ ┃ ┃ ┣ 📜ListAllTicketsService.ts
+ ┃ ┃ ┃ ┣ 📜ListTicketService.ts
+ ┃ ┃ ┃ ┗ 📜UpdateTicketMessageService.ts
+ ┃ ┗ 📂users
+ ┃ ┃ ┣ 📂dtos
+ ┃ ┃ ┃ ┣ 📜ICreatePermissionDTO.ts
+ ┃ ┃ ┃ ┣ 📜ICreateRoleDTO.ts
+ ┃ ┃ ┃ ┗ 📜ICreateUserDTO.ts
+ ┃ ┃ ┣ 📂infra
+ ┃ ┃ ┃ ┣ 📂http
+ ┃ ┃ ┃ ┃ ┣ 📂controllers
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜ForgotPasswordController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜PermissionsController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜ProfileController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜ResetPasswordController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜RolesController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜SessionsController.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜UpdateAvatarController.ts
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜UsersCrontroller.ts
+ ┃ ┃ ┃ ┃ ┗ 📂routes
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜password.routes.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜permissions.routes.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜profile.routes.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜roles.routes.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜sessions.routes.ts
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜users.routes.ts
+ ┃ ┃ ┃ ┗ 📂typeorm
+ ┃ ┃ ┃ ┃ ┣ 📂entities
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Permission.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜Role.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜User.ts
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserToken.ts
+ ┃ ┃ ┃ ┃ ┗ 📂repositories
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜PermissionsRepository.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜RolesRepository.ts
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜UsersRepository.ts
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserTokensRepository.ts
+ ┃ ┃ ┣ 📂repositories
+ ┃ ┃ ┃ ┣ 📂fakes
+ ┃ ┃ ┃ ┃ ┣ 📜FakePermissionRepository.ts
+ ┃ ┃ ┃ ┃ ┣ 📜FakeUsersRepository.ts
+ ┃ ┃ ┃ ┃ ┗ 📜FakeUserTokensRepository.ts
+ ┃ ┃ ┃ ┣ 📜IPermissionsRepository.ts
+ ┃ ┃ ┃ ┣ 📜IRolesRepository.ts
+ ┃ ┃ ┃ ┣ 📜IUsersRepository.ts
+ ┃ ┃ ┃ ┗ 📜IUserTokensRepository.ts
+ ┃ ┃ ┣ 📂services
+ ┃ ┃ ┃ ┣ 📜CreatePermissionService.spec.ts
+ ┃ ┃ ┃ ┣ 📜CreatePermissionService.ts
+ ┃ ┃ ┃ ┣ 📜CreateRoleService.ts
+ ┃ ┃ ┃ ┣ 📜CreateUserService.spec.ts
+ ┃ ┃ ┃ ┣ 📜CreateUserService.ts
+ ┃ ┃ ┃ ┣ 📜FindUserService.ts
+ ┃ ┃ ┃ ┣ 📜ListUserRoleService.ts
+ ┃ ┃ ┃ ┣ 📜ResetPasswordService.spec.ts
+ ┃ ┃ ┃ ┣ 📜ResetPasswordService.ts
+ ┃ ┃ ┃ ┣ 📜SendForgotPasswordEmailService.spec.ts
+ ┃ ┃ ┃ ┣ 📜SendForgotPasswordEmailService.ts
+ ┃ ┃ ┃ ┣ 📜SessionsUserService.spec.ts
+ ┃ ┃ ┃ ┣ 📜SessionsUserService.ts
+ ┃ ┃ ┃ ┣ 📜ShowProfileService.ts
+ ┃ ┃ ┃ ┣ 📜UpdateProfileService.ts
+ ┃ ┃ ┃ ┗ 📜UpdateUserAvatarService.ts
+ ┃ ┃ ┗ 📂templates
+ ┃ ┃ ┃ ┗ 📜forgot_password.hbs
+ ┗ 📂shared
+ ┃ ┣ 📂errors
+ ┃ ┃ ┗ 📜AppError.ts
+ ┃ ┣ 📂infra
+ ┃ ┃ ┣ 📂http
+ ┃ ┃ ┃ ┣ 📂middlewares
+ ┃ ┃ ┃ ┃ ┣ 📜confirmAdminAuthenticated.ts
+ ┃ ┃ ┃ ┃ ┗ 📜confirmUserAuthenticated.ts
+ ┃ ┃ ┃ ┣ 📂routes
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┗ 📜server.ts
+ ┃ ┃ ┗ 📂typeorm
+ ┃ ┃ ┃ ┣ 📂migrations
+ ┃ ┃ ┃ ┃ ┣ 📜1603119695857-CreateUsers.ts
+ ┃ ┃ ┃ ┃ ┣ 📜1604615123079-CreateUserTokens.ts
+ ┃ ┃ ┃ ┃ ┣ 📜1606749213850-CreatePermissions.ts
+ ┃ ┃ ┃ ┃ ┣ 📜1606749525665-CreateRoles.ts
+ ┃ ┃ ┃ ┃ ┣ 📜1606765201191-CreatePermissionsRoles.ts
+ ┃ ┃ ┃ ┃ ┣ 📜1606773554297-CreateusersRoles.ts
+ ┃ ┃ ┃ ┃ ┣ 📜1608153473959-CreateTickets.ts
+ ┃ ┃ ┃ ┃ ┗ 📜1610408177969-AddAvatarFieldToUsers.ts
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┗ 📂providers
+ ┃ ┃ ┣ 📂CacheProvider
+ ┃ ┃ ┃ ┣ 📂implementations
+ ┃ ┃ ┃ ┃ ┗ 📜RedisCacheProvider.ts
+ ┃ ┃ ┃ ┗ 📂models
+ ┃ ┃ ┃ ┃ ┗ 📜ICacheProvider.ts
+ ┃ ┃ ┣ 📂HashProvider
+ ┃ ┃ ┃ ┣ 📂fakes
+ ┃ ┃ ┃ ┃ ┗ 📜FakeHashProvider.ts
+ ┃ ┃ ┃ ┣ 📂implementations
+ ┃ ┃ ┃ ┃ ┗ 📜BCryptHashProvider.ts
+ ┃ ┃ ┃ ┗ 📂models
+ ┃ ┃ ┃ ┃ ┗ 📜IHashProvider.ts
+ ┃ ┃ ┣ 📂MailProvider
+ ┃ ┃ ┃ ┣ 📂dtos
+ ┃ ┃ ┃ ┃ ┗ 📜ISendMailDTO.ts
+ ┃ ┃ ┃ ┣ 📂fakes
+ ┃ ┃ ┃ ┃ ┗ 📜FakeMailProvider.ts
+ ┃ ┃ ┃ ┣ 📂implementations
+ ┃ ┃ ┃ ┃ ┣ 📜EtherealMailProvider.ts
+ ┃ ┃ ┃ ┃ ┗ 📜SESMailProvider.ts
+ ┃ ┃ ┃ ┗ 📂models
+ ┃ ┃ ┃ ┃ ┗ 📜IMailProvider.ts
+ ┃ ┃ ┣ 📂MailTemplateProvider
+ ┃ ┃ ┃ ┣ 📂dtos
+ ┃ ┃ ┃ ┃ ┗ 📜IParseMailTemplateDTO.ts
+ ┃ ┃ ┃ ┣ 📂fakes
+ ┃ ┃ ┃ ┃ ┗ 📜FakeMailTemplateProvider.ts
+ ┃ ┃ ┃ ┣ 📂implementations
+ ┃ ┃ ┃ ┃ ┗ 📜HandlebarsMailTemplateProvider.ts
+ ┃ ┃ ┃ ┗ 📂models
+ ┃ ┃ ┃ ┃ ┗ 📜IMailTemplateProvider.ts
+ ┃ ┃ ┣ 📂StorageProvider
+ ┃ ┃ ┃ ┣ 📂implementations
+ ┃ ┃ ┃ ┃ ┣ 📜DiskStorageProvider.ts
+ ┃ ┃ ┃ ┃ ┗ 📜S3StorageProvider.ts
+ ┃ ┃ ┃ ┗ 📂models
+ ┃ ┃ ┃ ┃ ┗ 📜IStorageProvider.ts
+ ┃ ┃ ┗ 📜index.ts
 ```
 
 ### Funcionalidades desenvolvidas
@@ -210,8 +200,8 @@ src/
 - Buscar todos os tickets por usuário
 - Criar tickets
 - Buscar usuário por id
-- Criar um usuário
-- Criar um agente responsável pelo tratamento dos tickets
+- Criar um usuário comum e usuário administrador
+- Painel de listagem e alteração de um ticket (ao alterar um ticket, automáticamente o administrador se torna o responsável por aquele chamado).
 
 ### Alguns exemplos dessa API
 
@@ -270,7 +260,7 @@ src/
 
 ```json
 {
-	"email": "albert@migrar.cloud"
+	"email": "albert@email.com"
 }
 ```
 
