@@ -39,9 +39,9 @@ class AdminUpdateTicketService {
     }
 
     if (conclusion) {
-      const parseDate = parseISO(conclusion);
+      const parseConclusionDate = parseISO(conclusion);
 
-      if (isAfter(parseDate, Date.now())) {
+      if (isAfter(parseConclusionDate, Date.now())) {
         throw new AppError(
           "You can't finished a ticket with a date after today",
           400,
@@ -52,13 +52,18 @@ class AdminUpdateTicketService {
         throw new AppError('Incorrect status', 406);
       }
 
-      ticket.conclusion = parseDate;
+      ticket.conclusion = parseConclusionDate;
 
       await this.ticketsRepository.save(ticket);
+    } else if (status === 'Concluído') {
+      throw new AppError(
+        'The ticket cannot be updated with conclusion status! Insert a date of conclusion!',
+        406,
+      );
     }
 
     if (status === 'Aberto') {
-      throw new AppError('Review status field', 406);
+      throw new AppError('The status should be Em andamento', 406);
     }
 
     ticket.subject = subject;
