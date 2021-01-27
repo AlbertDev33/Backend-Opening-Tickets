@@ -19,6 +19,10 @@ export default class CreateTickets1608153473959 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
+            name: 'identifier',
+            type: 'varchar',
+          },
+          {
             name: 'subject',
             type: 'varchar',
           },
