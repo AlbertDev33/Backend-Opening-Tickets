@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import crypto from 'crypto';
 
 import CreateTicketService from '@modules/tickets/services/CreateTicketService';
 import ListAllTicketsService from '@modules/tickets/services/ListAllTicketsService';
@@ -23,7 +24,12 @@ export default class TicketsController {
     const conditionStatus = 'Em dia';
     const statusInformation = 'Aberto';
 
+    const hashDate = crypto.randomBytes(4).toString('hex');
+    const date = new Date();
+    const ticketIdentifier = `${hashDate}-${date.getFullYear()}`;
+
     const ticket = await createTicket.execute({
+      identifier: ticketIdentifier,
       subject,
       message,
       user_id: id,
