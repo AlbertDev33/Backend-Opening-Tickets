@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 import ICacheProvider from '@shared/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
+  identifier: string;
   subject: string;
   message: string;
   user_id: string;
@@ -20,6 +21,7 @@ class CreateTicketService {
   ) {}
 
   public async execute({
+    identifier,
     subject,
     message,
     user_id,
@@ -32,6 +34,7 @@ class CreateTicketService {
     }
 
     const ticket = await this.ticketsRepository.create({
+      identifier,
       subject,
       message,
       user_id,
