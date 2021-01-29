@@ -48,6 +48,7 @@ class TicketsRepository implements ITicketsRepository {
   }
 
   public async create({
+    identifier,
     subject,
     message,
     user_id,
@@ -56,6 +57,7 @@ class TicketsRepository implements ITicketsRepository {
     condition,
   }: ICreateTicketDTO): Promise<Ticket> {
     const ticket = this.ormRepository.create({
+      identifier,
       subject,
       message,
       user_id,
