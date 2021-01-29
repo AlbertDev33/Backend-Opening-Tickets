@@ -17,6 +17,9 @@ class Ticket {
   id: string;
 
   @Column()
+  identifier: string;
+
+  @Column()
   subject: string;
 
   @Column()
