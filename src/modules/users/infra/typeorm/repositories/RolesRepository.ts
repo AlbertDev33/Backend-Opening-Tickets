@@ -5,7 +5,6 @@ import ICreateRoleDTO from '@modules/users/dtos/ICreateRoleDTO';
 
 import Role from '@modules/users/infra/typeorm/entities/Role';
 import Permission from '@modules/users/infra/typeorm/entities/Permission';
-import AppError from '@shared/errors/AppError';
 
 class RolesRepository implements IRolesRepository {
   private ormRepository: Repository<Role>;
@@ -18,14 +17,12 @@ class RolesRepository implements IRolesRepository {
     this.ormRepositoryPermission = getRepository(Permission);
   }
 
-  public async findByName(name: string): Promise<string | null> {
-    const findRole = await this.ormRepository.findOne({ where: { name } });
+  public async findByName(name: Role[]): Promise<string[] | undefined> {
+    const findRole = await this.ormRepository.findByIds(name);
 
-    if (!findRole) {
-      throw new AppError('User Role not found!');
-    }
+    const rolesName = findRole.map(roleName => roleName.name);
 
-    return findRole.name;
+    return rolesName;
   }
 
   public async findById(id: string[]): Promise<Role[]> {
