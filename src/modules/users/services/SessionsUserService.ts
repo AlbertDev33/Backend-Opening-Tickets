@@ -15,7 +15,6 @@ interface IRequest {
 interface IResponse {
   user: User;
   token: string;
-  // userRoles: string | undefined;
 }
 
 class SessionsUserService {
