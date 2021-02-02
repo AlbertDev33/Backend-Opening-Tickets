@@ -4,13 +4,13 @@ import IRolesRepository from '@modules/users/repositories/IRolesRepository';
 import AppError from 'shared/errors/AppError';
 
 interface IRequest {
-  roleName: string;
+  roleName: Role[];
 }
 
 class ListUserRoleService {
   constructor(private roleRepository: IRolesRepository) {}
 
-  public async execute({ roleName }: IRequest): Promise<string | null> {
+  public async execute({ roleName }: IRequest): Promise<string[] | undefined> {
     const userRoles = await this.roleRepository.findByName(roleName);
 
     if (!userRoles) {
