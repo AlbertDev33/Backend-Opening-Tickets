@@ -8,7 +8,7 @@ import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 export default class ProfileController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const user_id = request.user.id;
+    const { user_id } = request.params;
 
     const usersRepository = new UsersRepository();
     const showProfile = new ShowProfileService(usersRepository);
