@@ -4,7 +4,7 @@ import multer from 'multer';
 
 import uploadConfig from 'config/upload';
 
-import UsersController from '@modules/users/infra/http/controllers/UsersCrontroller';
+import { UsersController } from '@modules/users/infra/http/controllers/UsersCrontroller';
 import UpdateAvatarController from '@modules/users/infra/http/controllers/UpdateAvatarController';
 import UsersAdminController from '@modules/users/infra/http/controllers/UsersAdminController';
 
