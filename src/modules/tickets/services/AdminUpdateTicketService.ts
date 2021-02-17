@@ -39,22 +39,7 @@ class AdminUpdateTicketService {
     }
 
     if (conclusion) {
-      const parseConclusionDate = parseISO(conclusion);
-
-      if (isAfter(parseConclusionDate, Date.now())) {
-        throw new AppError(
-          "You can't finished a ticket with a date after today",
-          400,
-        );
-      }
-
-      if (status === 'Aberto' || status === 'Em andamento') {
-        throw new AppError('Incorrect status', 406);
-      }
-
-      ticket.conclusion = parseConclusionDate;
-
-      await this.ticketsRepository.save(ticket);
+      await this.conclusionTicket(conclusion, status, ticket);
     } else if (status === 'Concluído') {
       throw new AppError(
         'The ticket cannot be updated with conclusion status! Insert a date of conclusion!',
@@ -75,6 +60,32 @@ class AdminUpdateTicketService {
     const ticketUpdate = await this.ticketsRepository.save(ticket);
 
     await this.cacheProvider.invalidatePrefix('TicketOpened');
+
+    return ticketUpdate;
+  }
+
+  private async conclusionTicket(
+    conclusion: string,
+    status: string,
+    ticket: Ticket,
+  ): Promise<Ticket> {
+    const conclusionDate = ticket;
+    const parseConclusionDate = parseISO(conclusion);
+
+    if (isAfter(parseConclusionDate, Date.now())) {
+      throw new AppError(
+        "You can't finished a ticket with a date after today",
+        400,
+      );
+    }
+
+    if (status !== 'Concluído') {
+      throw new AppError('Incorrect status', 406);
+    }
+
+    conclusionDate.conclusion = parseConclusionDate;
+
+    const ticketUpdate = await this.ticketsRepository.save(conclusionDate);
 
     return ticketUpdate;
   }
