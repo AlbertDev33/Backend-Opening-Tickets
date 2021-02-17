@@ -39,6 +39,7 @@ export default function confirmAdminAuthenticated(
     if (userRoles !== process.env.USER_ADMIN_ROLE) {
       throw new AppError('Not authorized!', 401);
     }
+
     return next();
   } catch {
     throw new AppError('Not authorized!', 401);
