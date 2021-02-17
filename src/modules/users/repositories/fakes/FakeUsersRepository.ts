@@ -20,6 +20,14 @@ class FakeUsersRepository implements IUsersRepository {
     return findUser;
   }
 
+  public async findRole(role: string): Promise<string | undefined> {
+    const findRole = this.users.find(user => String(user.roles) === role);
+
+    const nameUserRole = String(findRole);
+
+    return nameUserRole;
+  }
+
   public async create(userData: ICreateUserDTO): Promise<User> {
     const user = new User();
 
