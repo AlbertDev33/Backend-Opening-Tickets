@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import crypto from 'crypto';
 
 import CreateTicketService from '@modules/tickets/services/CreateTicketService';
-import ListAllTicketsService from '@modules/tickets/services/ListAllTicketsService';
+import ListAllTicketsService from '@modules/tickets/services/ListAllTicketsByUserService';
 import DeleteTicketService from '@modules/tickets/services/DeleteTicketService';
 
 import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
