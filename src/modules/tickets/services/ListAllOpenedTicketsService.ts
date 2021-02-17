@@ -16,7 +16,6 @@ class ListAllOpenedTicketsService {
 
     if (!listAllOpenedTickets) {
       listAllOpenedTickets = await this.ticketRepository.findAllOpenedTickets();
-      console.log('Passou aqui');
 
       await this.cacheProvider.save(`TicketOpened:`, listAllOpenedTickets);
     }
