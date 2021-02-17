@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
-  OneToOne,
 } from 'typeorm';
 
 import User from '@modules/users/infra/typeorm/entities/User';
@@ -38,7 +37,7 @@ class Ticket {
   @Column()
   accountable: string;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'accountable' })
   admin: User;
 
