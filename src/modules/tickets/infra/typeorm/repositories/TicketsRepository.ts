@@ -13,7 +13,17 @@ class TicketsRepository implements ITicketsRepository {
     this.ormRepository = getRepository(Ticket);
   }
 
-  public async findAllTickets(user_id: string): Promise<Ticket[]> {
+  public async findAllTicketsByAccountable(
+    accountable: string,
+  ): Promise<Ticket[] | null> {
+    const tickets = await this.ormRepository.find({
+      where: { accountable },
+    });
+
+    return tickets;
+  }
+
+  public async findAllTicketsByUser(user_id: string): Promise<Ticket[]> {
     const tickets = await this.ormRepository.find({
       where: { user_id },
     });
