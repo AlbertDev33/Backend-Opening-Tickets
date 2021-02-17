@@ -1,7 +1,7 @@
 import aws, { S3 } from 'aws-sdk';
 import path from 'path';
 import mime from 'mime';
-import fs from 'fs';
+import fs, { createReadStream } from 'fs';
 
 import IStorageProvider from '@shared/providers/StorageProvider/models/IStorageProvider';
 import uploadConfig from '@config/upload';
@@ -25,7 +25,7 @@ class S3StorageProvider implements IStorageProvider {
       throw new AppError('File not found', 401);
     }
 
-    const fileContent = await fs.promises.readFile(originalPath);
+    const fileContent = createReadStream(originalPath);
 
     await this.client
       .putObject({
