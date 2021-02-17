@@ -8,6 +8,7 @@ export default interface ITicketRepository {
   save(ticket: IUpdateTicketDTO): Promise<Ticket>;
   findById(ticket_id: string): Promise<Ticket | undefined>;
   findUserByTicket(user_id: string): Promise<Ticket | undefined>;
-  findAllTickets(user_id: string): Promise<Ticket[]>;
+  findAllTicketsByUser(user_id: string): Promise<Ticket[]>;
+  findAllTicketsByAccountable(accountable: string): Promise<Ticket[] | null>;
   findAllOpenedTickets(): Promise<Ticket[] | null>;
 }
