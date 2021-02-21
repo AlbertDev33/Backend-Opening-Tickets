@@ -1,3 +1,8 @@
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 
-createConnection();
+const closeConnection = new Connection({ type: 'postgres' });
+
+export const openConnection = async (): Promise<Connection> =>
+  createConnection();
+
+export const close = (): Promise<void> => closeConnection.close();
