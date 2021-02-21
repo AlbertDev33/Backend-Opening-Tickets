@@ -1,43 +1,81 @@
-import 'reflect-metadata';
-import 'dotenv/config';
-
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction, Application } from 'express';
 import cors from 'cors';
-import { errors } from 'celebrate';
-import 'express-async-errors';
+import * as http from 'http';
 
 import AppError from '@shared/errors/AppError';
+
 import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
+import * as database from '@shared/infra/typeorm';
 
 import '@shared/infra/typeorm';
 import '@shared/providers';
 
-const app = express();
+export class SetupServer {
+  private app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use('/files', express.static(uploadConfig.uploadsFolder));
-app.use(routes);
+  private server?: http.Server;
 
-app.use(errors());
+  constructor(private port = 3333) {}
 
-app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
-  if (err instanceof AppError) {
-    return response.status(err.statusCode).json({
-      status: 'error',
-      message: err.message,
+  public async init(): Promise<void> {
+    this.setupExpress();
+    await this.databaseConnect();
+    this.setupErrorHandlers();
+  }
+
+  private setupExpress(): void {
+    this.app.use(cors({ origin: '*' }));
+    this.app.use(express.json());
+    this.app.use('/files', express.static(uploadConfig.uploadsFolder));
+    this.app.use(routes);
+  }
+
+  public async start(): Promise<void> {
+    this.app.listen(this.port, () => {
+      console.info(`🚀 Executando na porta ${this.port}`);
     });
   }
 
-  console.error(err);
+  private async databaseConnect(): Promise<void> {
+    await database.openConnection();
+  }
 
-  return response.status(500).json({
-    status: 'error',
-    message: 'Internal server error',
-  });
-});
+  public async close(): Promise<void> {
+    await database.close();
+    if (this.server) {
+      await new Promise<void>((resolve, reject) => {
+        return this.server?.close(err => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve();
+        });
+      });
+    }
+  }
 
-app.listen(3333, () => {
-  console.log('🚀 Executando na porta 3333');
-});
+  public getApp(): Application {
+    return this.app;
+  }
+
+  private setupErrorHandlers(): void {
+    this.app.use(
+      (err: Error, _: Request, response: Response, __: NextFunction) => {
+        if (err instanceof AppError) {
+          return response.status(err.statusCode).json({
+            status: 'error',
+            message: err.message,
+          });
+        }
+
+        console.error(err);
+
+        return response.status(500).json({
+          status: 'error',
+          message: 'Internal server error',
+        });
+      },
+    );
+  }
+}
