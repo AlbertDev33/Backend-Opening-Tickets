@@ -32,9 +32,9 @@ class CreateTicketService {
   }: ITicketRequest): Promise<Ticket> {
     const randonString = await this.randomProvider.generateRandom(1);
 
-    const excludeString = '$' || '/' || '.';
+    const excludeSymbol = '$' || '/' || '.';
     const hashData = randonString
-      .split(excludeString)
+      .split(excludeSymbol)
       .join('')
       .slice(0, 10)
       .toString()
