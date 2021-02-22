@@ -1,16 +1,18 @@
 import Ticket from '@modules/tickets/infra/typeorm/entities/Ticket';
 import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
-import AppError from '@shared/errors/AppError';
 import ICacheProvider from '@shared/providers/CacheProvider/models/ICacheProvider';
+import IHashProvider from '@shared/providers/HashProvider/models/IHashProvider';
 
-interface IRequest {
-  identifier: string;
+enum DefaultValue {
+  emDia = 'Em dia',
+  aberto = 'Aberto',
+}
+
+interface ITicketRequest {
   subject: string;
   message: string;
   user_id: string;
   user_role: string;
-  status: string;
-  condition: string;
 }
 
 class CreateTicketService {
@@ -18,29 +20,37 @@ class CreateTicketService {
     private ticketsRepository: ITicketsRepository,
 
     private cacheProvider: ICacheProvider,
+
+    private randomProvider: IHashProvider,
   ) {}
 
   public async execute({
-    identifier,
     subject,
     message,
     user_id,
     user_role,
-    status,
-    condition,
-  }: IRequest): Promise<Ticket> {
-    if (!status) {
-      throw new AppError('Invalid status', 406);
-    }
+  }: ITicketRequest): Promise<Ticket> {
+    const randonString = await this.randomProvider.generateRandom(1);
+
+    const excludeString = '$' || '/' || '.';
+    const hashData = randonString
+      .split(excludeString)
+      .join('')
+      .slice(0, 10)
+      .toString()
+      .toUpperCase();
+
+    const date = new Date();
+    const ticketIdentifier = `${hashData}-${date.getFullYear()}`;
 
     const ticket = await this.ticketsRepository.create({
-      identifier,
+      identifier: ticketIdentifier,
       subject,
       message,
       user_id,
       user_role,
-      status,
-      condition,
+      status: DefaultValue.aberto,
+      condition: DefaultValue.emDia,
     });
 
     await this.cacheProvider.invalidatePrefix('ticketList');
