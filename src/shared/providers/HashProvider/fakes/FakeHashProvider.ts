@@ -8,4 +8,8 @@ export default class FakeHashProvider implements IHashProvider {
   public async compareHash(payload: string, hashed: string): Promise<boolean> {
     return payload === hashed;
   }
+
+  public async generateRandom(random: number): Promise<string> {
+    return String(random);
+  }
 }
