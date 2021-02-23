@@ -15,23 +15,20 @@ export default class ForgotPasswordController {
 
     const usersRepository = new UsersRepository();
     const handlebarsMailTemplate = new HandlebarsMailTemplateProvider();
-    const etherealMailProvider = new EtherealMailProvider(
-      handlebarsMailTemplate,
-    );
     const sesMailProvider = new SESMailProvider(handlebarsMailTemplate);
 
     const userTokensRepository = new UserTokensRepository();
 
     const driverMail =
-      mailConfig.driver === 'ethereal' ? etherealMailProvider : sesMailProvider;
+      mailConfig.driver === 'ethereal' ? EtherealMailProvider : sesMailProvider;
 
-    const sesssionUser = new SendForgotPasswordEmailService(
+    const sendForgotEmail = new SendForgotPasswordEmailService(
       usersRepository,
       driverMail,
       userTokensRepository,
     );
 
-    await sesssionUser.execute({
+    await sendForgotEmail.execute({
       email,
     });
 
