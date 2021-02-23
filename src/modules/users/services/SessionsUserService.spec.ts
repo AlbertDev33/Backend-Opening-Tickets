@@ -23,6 +23,7 @@ describe('SessionsUser', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
+      roles: [],
     });
 
     const response = await authenticateUser.execute({
@@ -68,6 +69,7 @@ describe('SessionsUser', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
+      roles: [],
     });
 
     expect(
