@@ -4,8 +4,11 @@ import IMailProvider from '@shared/providers/MailProvider/models/IMailProvider';
 import ISendMailDTO from '@shared/providers/MailProvider/dtos/ISendMailDTO';
 
 import IMailTemplateProvider from '@shared/providers/MailTemplateProvider/models/IMailTemplateProvider';
+import HandlebarsMailTemplateProvider from '@shared/providers/MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
 
-export default class EtherealMailProvider implements IMailProvider {
+const handlebarsMailTemplate = new HandlebarsMailTemplateProvider();
+
+class EtherealMailProvider implements IMailProvider {
   private client: Transporter;
 
   constructor(private mailTemplateProvider: IMailTemplateProvider) {
@@ -47,3 +50,5 @@ export default class EtherealMailProvider implements IMailProvider {
     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message));
   }
 }
+
+export default new EtherealMailProvider(handlebarsMailTemplate);
