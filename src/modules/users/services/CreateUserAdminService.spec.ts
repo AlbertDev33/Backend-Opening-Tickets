@@ -46,4 +46,41 @@ describe('CreateUserAdmin', () => {
     expect(spyRole).toHaveBeenCalledWith(id);
     expect(user).toHaveProperty('id');
   });
+
+  it('should not be able to create a new user with e-mail already in use', async () => {
+    const role = new Role();
+    role.name = 'role_admin';
+
+    const userAdmin = await fakeUsersRepository.create({
+      name: 'Administrator',
+      email: 'administrator@example.com',
+      password: '123456',
+      roles: [role],
+    });
+
+    const { id } = userAdmin;
+
+    await fakeUsersRepository.findRole(id);
+    const spyRole = jest.spyOn(fakeUsersRepository, 'findRole');
+
+    await createUserAdminService.execute({
+      name: 'user',
+      email: 'user@example.com',
+      password: '123456',
+      roles_id: [],
+      userAdmin_id: id,
+    });
+
+    await expect(
+      createUserAdminService.execute({
+        name: 'user',
+        email: 'user@example.com',
+        password: '123456',
+        roles_id: [],
+        userAdmin_id: id,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(spyRole).toHaveBeenCalledWith(id);
+  });
 });
