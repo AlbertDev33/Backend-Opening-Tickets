@@ -17,18 +17,30 @@ class RolesRepository implements IRolesRepository {
     this.ormRepositoryPermission = getRepository(Permission);
   }
 
-  public async findByName(name: Role[]): Promise<string[] | undefined> {
-    const findRole = await this.ormRepository.findByIds(name);
+  public async findAllRoles(): Promise<Role[]> {
+    const findAllRoles = await this.ormRepository.find();
 
-    const rolesName = findRole.map(roleName => roleName.name);
-
-    return rolesName;
+    return findAllRoles;
   }
 
-  public async findById(id: string[]): Promise<Role[]> {
-    const roles = await this.ormRepository.findByIds(id);
+  public async findById(role_id: Role[]): Promise<string | undefined> {
+    const parseRoleId = role_id.toString();
 
-    return roles;
+    const findRole = await this.ormRepository.find({
+      where: { id: parseRoleId },
+    });
+
+    const roleName = findRole.map(role => role.name);
+
+    return roleName.toString();
+  }
+
+  public async findByName(name: string): Promise<string | undefined> {
+    const findRoleName = await this.ormRepository.find({ name });
+
+    const roleName = findRoleName.map(role => role.name);
+
+    return roleName.toString();
   }
 
   public async create({
