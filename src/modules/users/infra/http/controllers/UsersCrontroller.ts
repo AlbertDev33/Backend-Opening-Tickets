@@ -4,7 +4,6 @@ import { classToClass } from 'class-transformer';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import BCryptHashProvider from '@shared/providers/HashProvider/implementations/BCryptHashProvider';
-import FindUserService from '@modules/users/services/FindUserService';
 
 export class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -21,17 +20,6 @@ export class UsersController {
       password,
       roles,
     });
-
-    return response.json({ user: classToClass(user) });
-  }
-
-  public async index(request: Request, response: Response): Promise<Response> {
-    const { id } = request.user;
-
-    const usersRepository = new UsersRepository();
-    const findUser = new FindUserService(usersRepository);
-
-    const user = await findUser.execute({ id });
 
     return response.json({ user: classToClass(user) });
   }
