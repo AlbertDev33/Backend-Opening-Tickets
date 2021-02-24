@@ -17,8 +17,6 @@ const usersController = new UsersController();
 const updateAvatarController = new UpdateAvatarController();
 const usersAdminController = new UsersAdminController();
 
-usersRouter.get('/', confirmAdminAuthenticated, usersController.index);
-
 usersRouter.post(
   '/userAdmin',
   confirmAdminAuthenticated,
