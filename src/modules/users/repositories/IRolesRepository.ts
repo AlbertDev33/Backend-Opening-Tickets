@@ -5,6 +5,7 @@ export default interface IRolesRepository {
   create(data: ICreateRoleDTO): Promise<Role>;
   save(role: Role): Promise<Role>;
   delete(role: Role): Promise<void>;
-  findByName(name: Role[]): Promise<string[] | undefined>;
-  findById(id: string[]): Promise<Role[]>;
+  findAllRoles(): Promise<Role[]>;
+  findByName(name: string): Promise<string | undefined>;
+  findById(role_id: Role[]): Promise<string | undefined>;
 }
