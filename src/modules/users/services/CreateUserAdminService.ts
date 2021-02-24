@@ -11,7 +11,7 @@ interface IRequest {
   name: string;
   email: string;
   password: string;
-  roles: Role[];
+  roles_id: Role[];
 }
 
 class CreateUserAdminService {
@@ -28,7 +28,7 @@ class CreateUserAdminService {
     name,
     email,
     password,
-    roles,
+    roles_id,
   }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
@@ -42,15 +42,13 @@ class CreateUserAdminService {
       throw new AppError('User Unauthorized', 401);
     }
 
-    const checkRoleAdmin = await this.roleReponsitory.findByName(roles);
+    const checkRoleAdmin = await this.roleReponsitory.findByName(roles_id);
 
     if (!checkRoleAdmin) {
       throw new AppError("Role don't exists!", 400);
     }
 
-    const roleName = checkRoleAdmin.toString();
-
-    if (roleName !== process.env.USER_ADMIN_ROLE) {
+    if (checkRoleAdmin !== process.env.USER_ADMIN_ROLE) {
       throw new AppError('Only admin user can be registered!');
     }
 
@@ -60,7 +58,7 @@ class CreateUserAdminService {
       name,
       email,
       password: hashedPassword,
-      roles,
+      roles: roles_id,
     });
 
     return userAdmin;

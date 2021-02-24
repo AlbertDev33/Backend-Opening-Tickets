@@ -26,7 +26,7 @@ export default class UsersAdminController {
       name,
       email,
       password,
-      roles,
+      roles_id: roles,
     });
 
     return response.json({ userAdmin: classToClass(userAdmin) });
