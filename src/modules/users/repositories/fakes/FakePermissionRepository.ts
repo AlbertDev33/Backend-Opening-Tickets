@@ -14,6 +14,14 @@ class FakePermissionsRepository implements IPermissionsRepository {
     return findPermission;
   }
 
+  public async findByName(name: string): Promise<Permission | undefined> {
+    const findPermission = this.permission.find(
+      permissionName => permissionName.name === name,
+    );
+
+    return findPermission;
+  }
+
   public async create(
     permissionData: ICreatePermissionDTO,
   ): Promise<Permission> {
@@ -27,9 +35,11 @@ class FakePermissionsRepository implements IPermissionsRepository {
   }
 
   public async save(permissionData: Permission): Promise<Permission> {
-    const permission = new Permission();
+    const findIndex = this.permission.findIndex(
+      findPermission => findPermission.id === permissionData.id,
+    );
 
-    this.permission.push(permission);
+    this.permission[findIndex] = permissionData;
 
     return permissionData;
   }
