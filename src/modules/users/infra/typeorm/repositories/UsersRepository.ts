@@ -29,15 +29,15 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async findRole(name: string): Promise<string | undefined> {
-    const userRoles = await this.ormRepository.findOne(name, {
+  public async findRole(user_id: string): Promise<string | undefined> {
+    const findUserAdmin = await this.ormRepository.findOne(user_id, {
       relations: ['roles'],
     });
 
-    const roles = userRoles?.roles;
-    const role = roles?.map(r => r.name);
+    const userAdminRole = findUserAdmin?.roles;
+    const roleName = userAdminRole?.map(name => name.name);
 
-    return role?.toString();
+    return roleName?.toString();
   }
 
   public async create({
