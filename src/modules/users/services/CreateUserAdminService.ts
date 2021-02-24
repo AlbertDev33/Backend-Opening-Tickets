@@ -28,6 +28,12 @@ class CreateUserAdminService {
     password,
     roles_id,
   }: IRequest): Promise<User> {
+    const checkUserExists = await this.usersRepository.findByEmail(email);
+
+    if (checkUserExists) {
+      throw new AppError('E-mail address already in used');
+    }
+
     const checkUserAdmin = await this.usersRepository.findRole(userAdmin_id);
 
     if (checkUserAdmin !== 'role_admin') {
