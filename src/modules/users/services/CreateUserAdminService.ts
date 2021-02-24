@@ -42,7 +42,7 @@ class CreateUserAdminService {
       throw new AppError('User Unauthorized', 401);
     }
 
-    const checkRoleAdmin = await this.roleReponsitory.findByName(roles_id);
+    const checkRoleAdmin = await this.roleReponsitory.findById(roles_id);
 
     if (!checkRoleAdmin) {
       throw new AppError("Role don't exists!", 400);
