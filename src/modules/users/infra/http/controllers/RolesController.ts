@@ -10,6 +10,7 @@ export default class PermissionsController {
 
     const roleReponsitory = new RolesRepository();
     const redisCacheProvider = new RedisCacheProvider();
+
     const createRole = new CreateRoleService(
       roleReponsitory,
       redisCacheProvider,
