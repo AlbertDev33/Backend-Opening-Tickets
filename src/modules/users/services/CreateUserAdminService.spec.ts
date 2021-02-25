@@ -22,12 +22,12 @@ describe('CreateUserAdmin', () => {
       fakeHashProvider,
     );
 
-    process.env.USER_ADMIN_ROLE = 'role_admin';
+    process.env.USER_ADMIN_ROLE = 'Role_TestAdmin';
   });
 
   it('should be able to create a new admin user only if the accountable is a administrator', async () => {
     const newRole = await fakeRolesRepository.create({
-      name: 'role_admin',
+      name: 'Role_TestAdmin',
       description: 'role test',
       permissions: [],
     });
@@ -58,7 +58,7 @@ describe('CreateUserAdmin', () => {
 
   it('should not be able to create a new user with e-mail already in use', async () => {
     const newRole = await fakeRolesRepository.create({
-      name: 'role_admin',
+      name: 'Role_TestAdmin',
       description: 'role test',
       permissions: [],
     });
@@ -99,7 +99,7 @@ describe('CreateUserAdmin', () => {
 
   it('should not be able to create a new administrator user if the role is not that of an administrator', async () => {
     const role = new Role();
-    role.name = 'role_admin';
+    role.name = 'Role_TestAdmin';
 
     const newRole = await fakeRolesRepository.create({
       name: 'role_user',
