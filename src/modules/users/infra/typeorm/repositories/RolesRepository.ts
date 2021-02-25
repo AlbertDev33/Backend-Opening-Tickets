@@ -67,8 +67,8 @@ class RolesRepository implements IRolesRepository {
     return this.ormRepository.save(role);
   }
 
-  public async delete(role: Role): Promise<void> {
-    await this.ormRepository.delete(role);
+  public async delete(role_id: string): Promise<void> {
+    await this.ormRepository.delete(role_id);
   }
 }
 
