@@ -1,6 +1,6 @@
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IRolesRepository from '@modules/users/repositories/IRolesRepository';
-// import IHashProvider from '@shared/providers/HashProvider/models/IHashProvider';
+import IHashProvider from '@shared/providers/HashProvider/models/IHashProvider';
 import User from '@modules/users/infra/typeorm/entities/User';
 import Role from '@modules/users/infra/typeorm/entities/Role';
 
@@ -18,7 +18,9 @@ class CreateUserAdminService {
   constructor(
     private usersRepository: IUsersRepository,
 
-    private roleRepository: IRolesRepository, // private hashProvider: IHashProvider,
+    private roleRepository: IRolesRepository,
+
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({
@@ -50,10 +52,12 @@ class CreateUserAdminService {
       throw new AppError('Only admin user can be registered!');
     }
 
+    const hashedPassword = await this.hashProvider.generateHash(password);
+
     const userAdmin = await this.usersRepository.create({
       name,
       email,
-      password,
+      password: hashedPassword,
       roles: roles_id,
     });
 

@@ -1,21 +1,25 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeRolesRepository from '@modules/users/repositories/fakes/FakeRolesRepository';
+import FakeHashProvider from '@shared/providers/HashProvider/fakes/FakeHashProvider';
 import CreateUserAdminService from '@modules/users/services/CreateUserAdminService';
 import AppError from '@shared/errors/AppError';
 import Role from '../infra/typeorm/entities/Role';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeRolesRepository: FakeRolesRepository;
+let fakeHashProvider: FakeHashProvider;
 let createUserAdminService: CreateUserAdminService;
 
 describe('CreateUserAdmin', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeRolesRepository = new FakeRolesRepository();
+    fakeHashProvider = new FakeHashProvider();
 
     createUserAdminService = new CreateUserAdminService(
       fakeUsersRepository,
       fakeRolesRepository,
+      fakeHashProvider,
     );
 
     process.env.USER_ADMIN_ROLE = 'role_admin';
