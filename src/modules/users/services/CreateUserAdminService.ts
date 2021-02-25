@@ -40,6 +40,12 @@ class CreateUserAdminService {
       throw new AppError('User Unauthorized', 401);
     }
 
+    const roleNameIsAdmin = await this.roleRepository.findById(roles_id);
+
+    if (!roleNameIsAdmin) {
+      throw new AppError("Role don't exists!", 400);
+    }
+
     const userAdmin = await this.usersRepository.create({
       name,
       email,
