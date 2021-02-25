@@ -36,7 +36,7 @@ class CreateUserAdminService {
 
     const checkUserAdmin = await this.usersRepository.findRole(userAdmin_id);
 
-    if (checkUserAdmin !== 'role_admin') {
+    if (checkUserAdmin !== process.env.USER_ADMIN_ROLE) {
       throw new AppError('User Unauthorized', 401);
     }
 
@@ -44,6 +44,10 @@ class CreateUserAdminService {
 
     if (!roleNameIsAdmin) {
       throw new AppError("Role don't exists!", 400);
+    }
+
+    if (roleNameIsAdmin !== process.env.USER_ADMIN_ROLE) {
+      throw new AppError('Only admin user can be registered!');
     }
 
     const userAdmin = await this.usersRepository.create({
