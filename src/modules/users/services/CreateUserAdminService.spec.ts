@@ -20,14 +20,17 @@ describe('CreateUserAdmin', () => {
   });
 
   it('should be able to create a new admin user only if the accountable is a administrator', async () => {
-    const role = new Role();
-    role.name = 'role_admin';
+    const newRole = await fakeRolesRepository.create({
+      name: 'role_admin',
+      description: 'role test',
+      permissions: [],
+    });
 
     const userAdmin = await fakeUsersRepository.create({
       name: 'Administrator',
       email: 'administrator@example.com',
       password: '123456',
-      roles: [role],
+      roles: [newRole],
     });
 
     const { id } = userAdmin;
@@ -39,7 +42,7 @@ describe('CreateUserAdmin', () => {
       name: 'user',
       email: 'user@example.com',
       password: '123456',
-      roles_id: [],
+      roles_id: [newRole.id] as any,
       userAdmin_id: id,
     });
 
@@ -48,26 +51,30 @@ describe('CreateUserAdmin', () => {
   });
 
   it('should not be able to create a new user with e-mail already in use', async () => {
-    const role = new Role();
-    role.name = 'role_admin';
+    const newRole = await fakeRolesRepository.create({
+      name: 'role_admin',
+      description: 'role test',
+      permissions: [],
+    });
 
     const userAdmin = await fakeUsersRepository.create({
       name: 'Administrator',
       email: 'administrator@example.com',
       password: '123456',
-      roles: [role],
+      roles: [newRole],
     });
 
     const { id } = userAdmin;
 
     await fakeUsersRepository.findRole(id);
+
     const spyRole = jest.spyOn(fakeUsersRepository, 'findRole');
 
     await createUserAdminService.execute({
       name: 'user',
       email: 'user@example.com',
       password: '123456',
-      roles_id: [],
+      roles_id: [newRole.id] as any,
       userAdmin_id: id,
     });
 
@@ -76,11 +83,46 @@ describe('CreateUserAdmin', () => {
         name: 'user',
         email: 'user@example.com',
         password: '123456',
-        roles_id: [],
+        roles_id: [newRole.id] as any,
         userAdmin_id: id,
       }),
     ).rejects.toBeInstanceOf(AppError);
 
     expect(spyRole).toHaveBeenCalledWith(id);
+  });
+
+  it('should not be able to create a new administrator user if the role is not that of an administrator', async () => {
+    const role = new Role();
+    role.name = 'role_admin';
+
+    const newRole = await fakeRolesRepository.create({
+      name: 'role_user',
+      description: 'role test',
+      permissions: [],
+    });
+
+    const userAdmin = await fakeUsersRepository.create({
+      name: 'Administrator',
+      email: 'administrator@example.com',
+      password: '123456',
+      roles: [role],
+    });
+
+    await fakeUsersRepository.findRole(userAdmin.id);
+    await fakeRolesRepository.findById([newRole.id] as any);
+
+    const spyRoleName = jest.spyOn(fakeRolesRepository, 'findById');
+
+    await expect(
+      createUserAdminService.execute({
+        name: 'user',
+        email: 'user@example.com',
+        password: '123456',
+        roles_id: newRole.name as any,
+        userAdmin_id: userAdmin.id,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(spyRoleName).toHaveBeenCalledWith(newRole.name);
   });
 });
