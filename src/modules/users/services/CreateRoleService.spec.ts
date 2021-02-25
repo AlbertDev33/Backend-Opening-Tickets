@@ -1,17 +1,16 @@
 import FakeRoleRepository from '@modules/users/repositories/fakes/FakeRolesRepository';
-// import FakeCacheProvider from '@shared/providers/CacheProvider/fakes/FakeCacheProvider';
-import RedisCacheProvider from '@shared/providers/CacheProvider/implementations/RedisCacheProvider';
+import FakeCacheProvider from '@shared/providers/CacheProvider/fakes/FakeCacheProvider';
 import CreateRoleService from '@modules/users/services/CreateRoleService';
 import AppError from '@shared/errors/AppError';
 
 let fakeRoleRepository: FakeRoleRepository;
-let fakeCacheProvider: RedisCacheProvider;
+let fakeCacheProvider: FakeCacheProvider;
 let createRoleService: CreateRoleService;
 
 describe('CreateRole', () => {
   beforeEach(() => {
     fakeRoleRepository = new FakeRoleRepository();
-    fakeCacheProvider = new RedisCacheProvider();
+    fakeCacheProvider = new FakeCacheProvider();
 
     createRoleService = new CreateRoleService(
       fakeRoleRepository,
