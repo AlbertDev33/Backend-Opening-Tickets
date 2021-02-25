@@ -17,6 +17,8 @@ describe('CreateUserAdmin', () => {
       fakeUsersRepository,
       fakeRolesRepository,
     );
+
+    process.env.USER_ADMIN_ROLE = 'role_admin';
   });
 
   it('should be able to create a new admin user only if the accountable is a administrator', async () => {
