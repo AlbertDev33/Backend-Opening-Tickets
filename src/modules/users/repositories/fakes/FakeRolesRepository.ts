@@ -48,11 +48,11 @@ export default class FakeRolesRepository implements IRolesRepository {
     return role;
   }
 
-  public async delete(role: Role): Promise<void> {
-    let { roles } = this;
+  public async delete(role_id: string): Promise<void> {
+    const findRoleIndex = this.roles.findIndex(
+      roleIndex => roleIndex.id === role_id,
+    );
 
-    roles = this.roles.filter(findRole => findRole.id === role.id);
-
-    roles.pop();
+    this.roles.splice(findRoleIndex, 1);
   }
 }
