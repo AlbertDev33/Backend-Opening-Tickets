@@ -42,4 +42,28 @@ describe('UpdateUserAvatar', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should delete old avatar when updating new one', async () => {
+    const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
+
+    const user = await fakeUsersRepository.create({
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: '123456',
+      roles: [],
+    });
+
+    await updateUserAvatar.execute({
+      user_id: user.id,
+      avatarFileName: 'avatar.png',
+    });
+
+    await updateUserAvatar.execute({
+      user_id: user.id,
+      avatarFileName: 'avatar2.png',
+    });
+
+    expect(deleteFile).toHaveBeenCalledWith('avatar.png');
+    expect(user.avatar).toBe('avatar2.png');
+  });
 });
