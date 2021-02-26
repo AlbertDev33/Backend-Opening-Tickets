@@ -44,10 +44,12 @@ class FakePermissionsRepository implements IPermissionsRepository {
     return permissionData;
   }
 
-  public async delete(permission: Permission): Promise<void> {
-    if (permission) {
-      this.permission.pop();
-    }
+  public async delete(permission_id: string): Promise<void> {
+    const findPermissionIndex = this.permission.findIndex(
+      permissionId => permissionId.id === permission_id,
+    );
+
+    this.permission.splice(findPermissionIndex, 1);
   }
 }
 
