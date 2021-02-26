@@ -42,8 +42,8 @@ class PermissionRepository implements IPermissionsRepository {
     return this.ormRepository.save(permission);
   }
 
-  public async delete(permission: Permission): Promise<void> {
-    await this.ormRepository.delete(permission);
+  public async delete(permission_id: string): Promise<void> {
+    await this.ormRepository.delete(permission_id);
   }
 }
 
