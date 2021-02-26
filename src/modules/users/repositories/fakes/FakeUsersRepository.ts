@@ -35,10 +35,11 @@ class FakeUsersRepository implements IUsersRepository {
   }
 
   public async findRole(user_id: string): Promise<string | undefined> {
-    const findRole = this.users.find(role => role.roles);
+    const findUserAdmin = this.users.find(user => user.id === user_id);
 
-    const nameRole = findRole?.roles;
-    const roleName = nameRole?.map(name => name.name);
+    const findRole = findUserAdmin?.roles;
+
+    const roleName = findRole?.map(role => role.name);
 
     return roleName?.toString();
   }
