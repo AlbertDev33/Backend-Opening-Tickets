@@ -45,8 +45,6 @@ describe('CreateUserAdmin', () => {
       roles: [wrongRole],
     });
 
-    await fakeUsersRepository.findRole(userNotAdmin.id);
-
     await expect(
       createUserAdminService.execute({
         name: 'user',
