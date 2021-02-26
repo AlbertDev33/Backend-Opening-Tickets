@@ -14,7 +14,7 @@ export default class ListTicketsByAccountableController {
     );
 
     const ticketsAccountable = await listTicketsByAccountable.execute({
-      accountable: id,
+      accountable_id: id,
     });
 
     return response.json(ticketsAccountable);

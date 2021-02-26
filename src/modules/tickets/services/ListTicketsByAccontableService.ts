@@ -4,17 +4,15 @@ import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository
 import AppError from '@shared/errors/AppError';
 
 interface IAccountable {
-  accountable: string;
+  accountable_id: string;
 }
 
 export default class ListTicketsByAccontableService {
   constructor(private ticketsRepository: ITicketsRepository) {}
 
-  public async execute({
-    accountable,
-  }: IAccountable): Promise<Ticket[] | null> {
+  public async execute({ accountable_id }: IAccountable): Promise<Ticket[]> {
     const accountableTickets = await this.ticketsRepository.findAllTicketsByAccountable(
-      accountable,
+      accountable_id,
     );
 
     if (!accountableTickets) {

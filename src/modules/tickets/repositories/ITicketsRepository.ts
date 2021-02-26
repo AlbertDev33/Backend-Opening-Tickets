@@ -9,6 +9,6 @@ export default interface ITicketRepository {
   findById(ticket_id: string): Promise<Ticket | undefined>;
   findUserByTicket(user_id: string): Promise<Ticket | undefined>;
   findAllTicketsByUser(user_id: string): Promise<Ticket[]>;
-  findAllTicketsByAccountable(accountable: string): Promise<Ticket[] | null>;
-  findAllOpenedTickets(): Promise<Ticket[] | null>;
+  findAllTicketsByAccountable(accountable_id: string): Promise<Ticket[]>;
+  findAllOpenedTickets(): Promise<Ticket[]>;
 }
