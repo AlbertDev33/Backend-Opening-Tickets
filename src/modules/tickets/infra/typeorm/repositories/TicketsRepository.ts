@@ -1,4 +1,4 @@
-import { getRepository, Repository, EntityRepository } from 'typeorm';
+import { getRepository, Repository, EntityRepository, IsNull } from 'typeorm';
 
 import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
 import ICreateTicketDTO from '@modules/tickets/dtos/ICreateTicketDTO';
@@ -14,10 +14,10 @@ class TicketsRepository implements ITicketsRepository {
   }
 
   public async findAllTicketsByAccountable(
-    accountable: string,
-  ): Promise<Ticket[] | null> {
+    accountable_id: string,
+  ): Promise<Ticket[]> {
     const tickets = await this.ormRepository.find({
-      where: { accountable },
+      where: { accountable: accountable_id },
     });
 
     return tickets;
@@ -47,11 +47,9 @@ class TicketsRepository implements ITicketsRepository {
     return findUserByTicket;
   }
 
-  public async findAllOpenedTickets(): Promise<Ticket[] | null> {
-    const accountable = null;
-
+  public async findAllOpenedTickets(): Promise<Ticket[]> {
     const findTickets = await this.ormRepository.find({
-      where: { accountable },
+      where: { accountable: IsNull() },
     });
 
     return findTickets;
