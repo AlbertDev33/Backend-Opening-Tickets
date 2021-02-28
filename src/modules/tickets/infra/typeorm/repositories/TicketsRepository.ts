@@ -83,8 +83,8 @@ class TicketsRepository implements ITicketsRepository {
     return this.ormRepository.save(ticket);
   }
 
-  public async delete(id: string): Promise<void> {
-    await this.ormRepository.delete(id);
+  public async delete(ticket_id: string): Promise<void> {
+    await this.ormRepository.delete(ticket_id);
   }
 }
 
