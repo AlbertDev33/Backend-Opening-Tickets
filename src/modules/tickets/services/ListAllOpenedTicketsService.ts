@@ -9,7 +9,7 @@ class ListAllOpenedTicketsService {
     private cacheProvider: ICachProvider,
   ) {}
 
-  public async execute(): Promise<Ticket[] | null> {
+  public async execute(): Promise<Ticket[]> {
     let listAllOpenedTickets = await this.cacheProvider.recover<Ticket[]>(
       `TicketOpened:`,
     );
