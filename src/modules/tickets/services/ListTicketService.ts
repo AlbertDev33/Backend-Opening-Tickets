@@ -11,8 +11,8 @@ class CreateTicketService {
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute(ticket_id: string): Promise<Ticket | null> {
-    let listTicket = await this.cacheProvider.recover<Ticket>(
+  public async execute(ticket_id: string): Promise<Ticket | undefined> {
+    let listTicket = await this.cacheProvider.recover<Ticket | undefined>(
       `ticketList:${ticket_id}`,
     );
 
