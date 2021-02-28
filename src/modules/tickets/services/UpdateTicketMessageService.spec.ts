@@ -40,6 +40,23 @@ describe('UpdateTickeMessageService', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
+  it('should not be able to update a message of a ticket with invalid ticket_id', async () => {
+    const user = await fakeUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+      roles: [],
+    });
+
+    await expect(
+      updateTicketMessageService.execute({
+        user_id: user.id,
+        ticket_id: 'non_exist',
+        message: 'fake_message',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
   it('should be able to update the message of a ticket', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
