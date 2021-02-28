@@ -5,19 +5,19 @@ import FakeCacheProvider from '@shared/providers/CacheProvider/fakes/FakeCachePr
 import ListAllTicketsByUserService from '@modules/tickets/services/ListAllTicketsByUserService';
 import AppError from '@shared/errors/AppError';
 
-let fakeTickesRepository: FakeTicketsRepository;
+let fakeTicketsRepository: FakeTicketsRepository;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeCacheProvider: FakeCacheProvider;
 let listAllTicketsByUserService: ListAllTicketsByUserService;
 
 describe('ListAllTickestByUserService', () => {
   beforeAll(() => {
-    fakeTickesRepository = new FakeTicketsRepository();
+    fakeTicketsRepository = new FakeTicketsRepository();
     fakeUsersRepository = new FakeUsersRepository();
     fakeCacheProvider = new FakeCacheProvider();
 
     listAllTicketsByUserService = new ListAllTicketsByUserService(
-      fakeTickesRepository,
+      fakeTicketsRepository,
       fakeUsersRepository,
       fakeCacheProvider,
     );
@@ -31,7 +31,7 @@ describe('ListAllTickestByUserService', () => {
       roles: [],
     });
 
-    const ticket = await fakeTickesRepository.create({
+    const ticket = await fakeTicketsRepository.create({
       identifier: '1231',
       message: 'Ticket Test',
       subject: 'Create Ticket for Test',
