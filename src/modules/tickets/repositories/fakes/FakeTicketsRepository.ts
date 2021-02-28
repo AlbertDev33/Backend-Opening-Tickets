@@ -71,7 +71,7 @@ class FakeTicketsRepository implements ITicketsRepository {
 
   public async findAllOpenedTickets(): Promise<Ticket[]> {
     const findOpenedTickets = this.tickets.filter(
-      ticket => ticket.accountable === null,
+      ticket => !ticket.accountable,
     );
 
     return findOpenedTickets;
