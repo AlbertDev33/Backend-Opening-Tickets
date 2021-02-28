@@ -10,6 +10,6 @@ export default class FakeHashProvider implements IHashProvider {
   }
 
   public async generateRandom(random: number): Promise<string> {
-    return String(random);
+    return `${String(random)}789sadf`;
   }
 }
