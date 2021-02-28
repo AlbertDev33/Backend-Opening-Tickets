@@ -34,10 +34,6 @@ class CreateTicketService {
         user_id,
       );
 
-      if (!allTicketsUser) {
-        throw new AppError('Ticket finished or not exisit', 404);
-      }
-
       await this.cacheProvider.save(`ticketList:${user_id}`, allTicketsUser);
     }
 
