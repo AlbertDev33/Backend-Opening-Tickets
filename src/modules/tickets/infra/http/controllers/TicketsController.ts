@@ -1,4 +1,8 @@
-import { Request, Response } from 'express';
+import {
+  HttpRequest,
+  IRequest,
+  IResponse,
+} from '@shared/infra/http/ExpressImplementation/HttpRequest';
 
 import CreateTicketService from '@modules/tickets/services/CreateTicketService';
 import ListAllTicketsService from '@modules/tickets/services/ListAllTicketsByUserService';
@@ -9,8 +13,11 @@ import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepo
 import RedisCacheProvider from '@shared/providers/CacheProvider/implementations/RedisCacheProvider';
 import BCryptHashProvider from '@shared/providers/HashProvider/implementations/BCryptHashProvider';
 
-export default class TicketsController {
-  public async create(request: Request, response: Response): Promise<Response> {
+export default class TicketsController extends HttpRequest {
+  public async create(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const { id, userRoles } = request.user;
     const { subject, message } = request.body;
 
@@ -34,7 +41,10 @@ export default class TicketsController {
     return response.json(ticket);
   }
 
-  public async index(request: Request, response: Response): Promise<Response> {
+  public async index(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const { id } = request.user;
 
     const ticketsRepository = new TicketsRepository();
@@ -52,7 +62,10 @@ export default class TicketsController {
     return response.json(allTicketsUser);
   }
 
-  public async delete(request: Request, response: Response): Promise<Response> {
+  public async delete(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const { id } = request.body;
 
     const ticketsRepository = new TicketsRepository();

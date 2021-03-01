@@ -1,13 +1,21 @@
-import { Request, Response } from 'express';
 import { classToClass } from 'class-transformer';
+
+import {
+  HttpRequest,
+  IRequest,
+  IResponse,
+} from '@shared/infra/http/ExpressImplementation/HttpRequest';
 
 import CreateUserAdminService from '@modules/users/services/CreateUserAdminService';
 import RolesRepository from '@modules/users/infra/typeorm/repositories/RolesRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import BCryptHashProvider from '@shared/providers/HashProvider/implementations/BCryptHashProvider';
 
-export default class UsersAdminController {
-  public async create(request: Request, response: Response): Promise<Response> {
+export default class UsersAdminController extends HttpRequest {
+  public async create(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const { id } = request.user;
     const { name, email, password, roles } = request.body;
 
@@ -22,7 +30,7 @@ export default class UsersAdminController {
     );
 
     const userAdmin = await createUserAdmin.execute({
-      user_id: id,
+      userAdmin_id: id,
       name,
       email,
       password,

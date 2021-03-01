@@ -1,4 +1,8 @@
-import { Request, Response } from 'express';
+import {
+  HttpRequest,
+  IRequest,
+  IResponse,
+} from '@shared/infra/http/ExpressImplementation/HttpRequest';
 
 import SendForgotPasswordEmailService from '@modules/users/services/SendForgotPasswordEmailService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
@@ -9,8 +13,11 @@ import HandlebarsMailTemplateProvider from '@shared/providers/MailTemplateProvid
 
 import mailConfig from '@config/mail';
 
-export default class ForgotPasswordController {
-  public async create(request: Request, response: Response): Promise<Response> {
+export default class ForgotPasswordController extends HttpRequest {
+  public async create(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const { email } = request.body;
 
     const usersRepository = new UsersRepository();

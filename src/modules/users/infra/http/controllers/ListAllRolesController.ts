@@ -1,10 +1,17 @@
-import { Request, Response } from 'express';
+import {
+  HttpRequest,
+  IRequest,
+  IResponse,
+} from '@shared/infra/http/ExpressImplementation/HttpRequest';
 
 import ListAllRolesService from '@modules/users/services/ListAllRolesService';
 import RolesRepository from '@modules/users/infra/typeorm/repositories/RolesRepository';
 
-export default class ListAllRoleController {
-  public async index(request: Request, response: Response): Promise<Response> {
+export default class ListAllRoleController extends HttpRequest {
+  public async index(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const rolesRepository = new RolesRepository();
     const listAllRolesService = new ListAllRolesService(rolesRepository);
 

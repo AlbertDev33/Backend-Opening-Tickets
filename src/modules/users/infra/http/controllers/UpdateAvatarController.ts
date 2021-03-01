@@ -1,5 +1,10 @@
-import { Request, Response } from 'express';
 import { classToClass } from 'class-transformer';
+
+import {
+  HttpRequest,
+  IRequest,
+  IResponse,
+} from '@shared/infra/http/ExpressImplementation/HttpRequest';
 
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
@@ -8,8 +13,11 @@ import S3StorageProvider from '@shared/providers/StorageProvider/implementations
 
 import uploadConfig from '@config/upload';
 
-export default class UpdateAvatarController {
-  public async update(request: Request, response: Response): Promise<Response> {
+export default class UpdateAvatarController extends HttpRequest {
+  public async update(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const user_id = request.user.id;
     const avatarFileName = request.file.filename;
 

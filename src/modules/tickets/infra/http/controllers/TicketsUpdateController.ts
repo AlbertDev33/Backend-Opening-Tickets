@@ -1,12 +1,19 @@
-import { Request, Response } from 'express';
+import {
+  HttpRequest,
+  IRequest,
+  IResponse,
+} from '@shared/infra/http/ExpressImplementation/HttpRequest';
 
 import UpdateTicketMessageService from '@modules/tickets/services/UpdateTicketMessageService';
 
 import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/TicketsRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
-export default class TicketsEditController {
-  public async update(request: Request, response: Response): Promise<Response> {
+export default class TicketsEditController extends HttpRequest {
+  public async update(
+    request: IRequest,
+    response: IResponse,
+  ): Promise<IResponse> {
     const { id } = request.user;
     const { ticket_id } = request.params;
     const { message } = request.body;
