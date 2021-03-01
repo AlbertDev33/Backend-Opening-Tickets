@@ -32,7 +32,7 @@ export default class ProfileController extends HttpRequest {
     request: IRequest,
     response: IResponse,
   ): Promise<IResponse> {
-    const user_id = request.user.id;
+    const { id } = request.user;
     const { name, email, old_password, password } = request.body;
 
     const userReponsitory = new UsersRepository();
@@ -43,13 +43,13 @@ export default class ProfileController extends HttpRequest {
     );
 
     const user = await updateProfile.execute({
-      user_id,
+      user_id: id,
       name,
       email,
       old_password,
       password,
     });
 
-    return response.json(user);
+    return response.json({ user: classToClass(user) });
   }
 }
