@@ -1,5 +1,4 @@
 # Sistema de abertura de tickets
-### Essa API ainda encontra-se em desenvolvimento (contribuições são bem vindas)
 
 ## Informações gerais
 
