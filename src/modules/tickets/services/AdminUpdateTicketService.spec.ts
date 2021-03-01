@@ -2,6 +2,8 @@ import FakeTicketsRepository from '@modules/tickets/repositories/fakes/FakeTicke
 import FakeCacheProvider from '@shared/providers/CacheProvider/fakes/FakeCacheProvider';
 
 import AdminUpdateTicketService from '@modules/tickets/services/AdminUpdateTicketService';
+// import AppError from '@shared/errors/AppError';
+// import { parseISO } from 'date-fns';
 
 let fakeTicketsRepository: FakeTicketsRepository;
 let fakeCacheProvider: FakeCacheProvider;
