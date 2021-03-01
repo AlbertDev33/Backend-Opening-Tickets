@@ -129,4 +129,28 @@ describe('AdminUpdateTicket', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it("should not be able to update a ticket with status other than 'Concluído'", async () => {
+    const ticket = await fakeTicketsRepository.create({
+      identifier: 'fake_identifier',
+      message: 'Ticket Test',
+      subject: 'Create Ticket for Test',
+      user_id: 'fake_user_id',
+      user_role: 'fake_user_role',
+      condition: 'fake_condition',
+      status: 'Em andamento',
+    });
+
+    await expect(
+      adminUpdateTicketService.execute({
+        subject: 'new_subject',
+        message: 'new_message',
+        status: 'invalid_status' as any,
+        condition: 'new_condition',
+        accountable: 'new_accountable',
+        ticket_id: ticket.id,
+        conclusion: '2021-02-28',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
