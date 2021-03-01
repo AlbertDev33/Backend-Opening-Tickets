@@ -202,7 +202,7 @@ Essa API foi desenvolvida utilizando Node.js junto ao Typescript, utilizando con
 
 ## Testes
 
-- Para rodas os testes utilize o comando yarn test
+- Para rodar os testes utilize o comando yarn test
 
 ## Estrutura de pastas do projeto
 
