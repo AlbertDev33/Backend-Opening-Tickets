@@ -71,6 +71,12 @@ describe('AdminUpdateTicket', () => {
       status: 'fake_status',
     });
 
+    const date = new Date();
+
+    const oneDayAfterToday = `${date.getFullYear()}-${date.getMonth()}-${
+      date.getDate() + 1
+    }`;
+
     await expect(
       adminUpdateTicketService.execute({
         subject: 'new_subject',
@@ -79,7 +85,7 @@ describe('AdminUpdateTicket', () => {
         condition: 'new_condition',
         accountable: 'new_accountable',
         ticket_id: ticket.id,
-        conclusion: '2021-03-01',
+        conclusion: oneDayAfterToday,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
