@@ -3,7 +3,7 @@ import FakeCacheProvider from '@shared/providers/CacheProvider/fakes/FakeCachePr
 
 import AdminUpdateTicketService from '@modules/tickets/services/AdminUpdateTicketService';
 import AppError from '@shared/errors/AppError';
-// import { parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 
 let fakeTicketsRepository: FakeTicketsRepository;
 let fakeCacheProvider: FakeCacheProvider;
@@ -152,5 +152,30 @@ describe('AdminUpdateTicket', () => {
         conclusion: '2021-02-28',
       }),
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should be able to conclusion a ticket with all valid data', async () => {
+    const ticket = await fakeTicketsRepository.create({
+      identifier: 'fake_identifier',
+      message: 'Ticket Test',
+      subject: 'Create Ticket for Test',
+      user_id: 'fake_user_id',
+      user_role: 'fake_user_role',
+      condition: 'fake_condition',
+      status: 'fake_status',
+    });
+
+    await adminUpdateTicketService.execute({
+      subject: 'new_subject',
+      message: 'new_message',
+      status: 'Concluído',
+      condition: 'new_condition',
+      accountable: 'new_accountable',
+      conclusion: '2021-02-28',
+      ticket_id: ticket.id,
+    });
+
+    expect(ticket.status).toBe('Concluído');
+    expect(ticket.conclusion).toEqual(parseISO('2021-02-28'));
   });
 });
