@@ -3,6 +3,12 @@ import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository
 import ICacheProvider from '@shared/providers/CacheProvider/models/ICacheProvider';
 import IHashProvider from '@shared/providers/HashProvider/models/IHashProvider';
 
+enum ExcludeSymbol {
+  Dolar = '$',
+  Slash = '/',
+  Dot = '.',
+}
+
 enum DefaultValue {
   emDia = 'Em dia',
   aberto = 'Aberto',
@@ -32,7 +38,9 @@ class CreateTicketService {
   }: ITicketRequest): Promise<Ticket> {
     const randonString = await this.randomProvider.generateRandom(1);
 
-    const excludeSymbol = '$' || '/' || '.';
+    const excludeSymbol =
+      ExcludeSymbol.Dolar || ExcludeSymbol.Slash || ExcludeSymbol.Dot;
+
     const hashData = randonString
       .split(excludeSymbol)
       .join('')
