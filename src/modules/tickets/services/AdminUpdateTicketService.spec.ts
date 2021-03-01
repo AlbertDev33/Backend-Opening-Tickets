@@ -2,7 +2,7 @@ import FakeTicketsRepository from '@modules/tickets/repositories/fakes/FakeTicke
 import FakeCacheProvider from '@shared/providers/CacheProvider/fakes/FakeCacheProvider';
 
 import AdminUpdateTicketService from '@modules/tickets/services/AdminUpdateTicketService';
-// import AppError from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 // import { parseISO } from 'date-fns';
 
 let fakeTicketsRepository: FakeTicketsRepository;
@@ -45,5 +45,18 @@ describe('AdminUpdateTicket', () => {
     expect(ticket.status).toBe('Em andamento');
     expect(ticket.condition).toBe('new_condition');
     expect(ticket.accountable).toBe('new_accountable');
+  });
+
+  it('should return a error with a invalid ticket_id', async () => {
+    await expect(
+      adminUpdateTicketService.execute({
+        subject: 'new_subject',
+        message: 'new_message',
+        status: 'Em andamento',
+        condition: 'new_condition',
+        accountable: 'new_accountable',
+        ticket_id: 'invalid_ticket_id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
