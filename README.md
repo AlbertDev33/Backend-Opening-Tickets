@@ -68,7 +68,7 @@ Essa API foi desenvolvida utilizando Node.js junto ao Typescript, utilizando con
 }
 ```
 #### Update do avatar (rota patch '/users/avatar'
-)
+
 ```json
 {
   "updateAvatar": {
@@ -203,10 +203,6 @@ Essa API foi desenvolvida utilizando Node.js junto ao Typescript, utilizando con
 ## Testes
 
 - Para rodas os testes utilize o comando yarn test
-
-### Problemas e dúvidas
-
-Qualquer problema ou dúvida, fiquem a vontade para contribuir. Lembrando que essa API ainda encontra-se em desenvolvimento. Há bastante features para serem implementadas/melhoradas.
 
 ## Estrutura de pastas do projeto
 
