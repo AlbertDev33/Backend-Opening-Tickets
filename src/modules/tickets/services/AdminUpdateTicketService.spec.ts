@@ -83,4 +83,27 @@ describe('AdminUpdateTicket', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it("should not be able to conclude with status 'concluído' a ticket without conclusion date", async () => {
+    const ticket = await fakeTicketsRepository.create({
+      identifier: 'fake_identifier',
+      message: 'Ticket Test',
+      subject: 'Create Ticket for Test',
+      user_id: 'fake_user_id',
+      user_role: 'fake_user_role',
+      condition: 'fake_condition',
+      status: 'fake_status',
+    });
+
+    await expect(
+      adminUpdateTicketService.execute({
+        subject: 'new_subject',
+        message: 'new_message',
+        status: 'Concluído',
+        condition: 'new_condition',
+        accountable: 'new_accountable',
+        ticket_id: ticket.id,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
